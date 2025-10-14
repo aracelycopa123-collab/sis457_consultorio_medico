@@ -1,0 +1,6 @@
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\CpConsultorioMedico\bin\Debug\CpConsultorioMedico.dll
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\CpConsultorioMedico\bin\Debug\CpConsultorioMedico.pdb
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\CpConsultorioMedico\obj\Debug\CpConsultorioMedico.csproj.AssemblyReference.cache
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\CpConsultorioMedico\obj\Debug\CpConsultorioMedico.csproj.CoreCompileInputs.cache
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\CpConsultorioMedico\obj\Debug\CpConsultorioMedico.dll
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\CpConsultorioMedico\obj\Debug\CpConsultorioMedico.pdb

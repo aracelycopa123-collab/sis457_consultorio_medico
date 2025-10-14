@@ -1,0 +1,2 @@
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\ClnConsultorioMedico\obj\Debug\ClnConsultorioMedico.csproj.AssemblyReference.cache
+C:\sis457\sis457_consultorio_medico\ConsultorioMedico\ClnConsultorioMedico\obj\Debug\ClnConsultorioMedico.csproj.CoreCompileInputs.cache
