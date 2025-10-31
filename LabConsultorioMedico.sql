@@ -1,6 +1,4 @@
-ï»¿CREATE DATABASE LabConsultorioMedico;
-
-use LabConsultorioMedico;
+CREATE DATABASE LabConsultorioMedico;
 GO
 USE [master]
 GO
@@ -16,6 +14,8 @@ GO
 ALTER ROLE [db_owner] ADD MEMBER [usrconsultoriomedico]
 GO
 
+
+
 DROP TABLE Pago;
 DROP TABLE Cita;
 DROP TABLE Usuario;
@@ -23,6 +23,8 @@ DROP TABLE Doctor;
 DROP TABLE Paciente;
 DROP TABLE Concepto;
 DROP TABLE Especialidad;
+
+--DROP
 
 CREATE TABLE Especialidad (
   id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -36,6 +38,7 @@ CREATE TABLE Concepto (
   costo DECIMAL(10, 2) NOT NULL,
   CONSTRAINT fk_Concepto_Especialidad FOREIGN KEY (idEspecialidad) REFERENCES Especialidad(id)
 );
+
 
 CREATE TABLE Paciente (
   id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -75,6 +78,16 @@ CREATE TABLE Cita (
   CONSTRAINT fk_Cita_Especialidad FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id)
 );
 
+
+CREATE TABLE HistorialClinico (
+  id INT PRIMARY KEY IDENTITY(1,1),
+  descripcion VARCHAR(250),
+  diagnostico VARCHAR(250),
+  tratamiento VARCHAR(250),
+  fecha DATE DEFAULT GETDATE(),
+  idPaciente INT NULL
+);
+
 CREATE TABLE Pago (
   id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
   idCita INT NOT NULL,
@@ -83,7 +96,6 @@ CREATE TABLE Pago (
   CONSTRAINT fk_Pago_Cita FOREIGN KEY(idCita) REFERENCES Cita(id),
   CONSTRAINT fk_Pago_Concepto FOREIGN KEY(idConcepto) REFERENCES Concepto(id)
 );
-
 
 ALTER TABLE Especialidad ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME();
 ALTER TABLE Especialidad ADD fechaRegistro DATETIME NOT NULL DEFAULT GETDATE();
@@ -114,22 +126,26 @@ ALTER TABLE Concepto ADD fechaRegistro DATETIME NOT NULL DEFAULT GETDATE();
 ALTER TABLE Concepto ADD estado SMALLINT NOT NULL DEFAULT 1; -- -1:Eliminado, 0: Inactivo, 1: Activo
 
 
-INSERT INTO Especialidad (nombre)
-VALUES ('CardiologÃ­a')
+alter table HistorialClinico add usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(),
+	fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+	estado SMALLINT NOT NULL DEFAULT 1; -- -1:Eliminado, 0: Inactivo, 1: Activo
 
 INSERT INTO Especialidad (nombre)
-VALUES ('OdontologÃ­a')
+VALUES ('Cardiología')
+
+INSERT INTO Especialidad (nombre)
+VALUES ('Odontología')
 
 INSERT INTO Doctor (idEspecialidad,cedulaIdentidad, nombreCompletoDoctor, direccion, celular)
-VALUES (1,'12345678','Juan PÃ©rez LÃ³pez', 'ave. americas', 11121314), 
-(1,'12345678','Gloria Rosales Cardona', 'Av. PacÃ­fico #456', 77123456),
-(2,'87654321', 'MarÃ­a GonzÃ¡lez Padilla', ' 6 de agosto', 12131415),
+VALUES (1,'12345678','Juan Pérez López', 'ave. americas', 11121314), 
+(1,'12345678','Gloria Rosales Cardona', 'Av. Pacífico #456', 77123456),
+(2,'87654321', 'María González Padilla', ' 6 de agosto', 12131415),
 (2,'18273737','pablito alcachofa', 'mercado campesino', 18273474);
 
 INSERT INTO Paciente (cedulaIdentidad, nombreCompletoPaciente, direccion, celular) VALUES
-('12345678', 'Juan PÃ©rez GÃ³mez', 'Av. Siempre Viva 123', 789456123),
-('87654321', 'MarÃ­a LÃ³pez SÃ¡nchez', 'Calle Falsa 456', 712345678),
-('45678912', 'Carlos RamÃ­rez Salazar', 'Av. Central 890', 756789432);
+('12345678', 'Juan Pérez Gómez', 'Av. Siempre Viva 123', 789456123),
+('87654321', 'María López Sánchez', 'Calle Falsa 456', 712345678),
+('45678912', 'Carlos Ramírez Salazar', 'Av. Central 890', 756789432);
 
 INSERT INTO Cita (idDoctor, idPaciente,idEspecialidad, fecha, hora) VALUES
 (1, 1,1, '2025-07-01', '09:00'),
@@ -139,9 +155,9 @@ INSERT INTO Cita (idDoctor, idPaciente,idEspecialidad, fecha, hora) VALUES
 
 INSERT INTO Concepto(idEspecialidad,descripcion,costo)
 VALUES
-(1,'Consulta mÃ©dica',100),
-(1,'RevisiÃ³n mÃ©dica',150),
-(2,'Chequeo odontolÃ³gico',100),
+(1,'Consulta médica',100),
+(1,'Revisión médica',150),
+(2,'Chequeo odontológico',100),
 (2,'Limpieza dental',150);
 
 INSERT INTO Pago (idCita, idConcepto) VALUES
@@ -151,11 +167,128 @@ INSERT INTO Pago (idCita, idConcepto) VALUES
 (4, 4);
 
 
-
-INSERT INTO Usuario(usuario, clave, idDoctor)
-VALUES ('sol', '232323', 1); --usuario prueba
+INSERT INTO Usuario (usuario, clave, idDoctor)
+VALUES 
+    ('sol', 'hola123', 1),
+    ('soe', '123456', 2); -- usuario prueba
+UPDATE Usuario
+SET clave = 'i0hcoO/nssY6WOs9pOp5Xw=='
+WHERE usuario = 'sol';
 
 SELECT * FROM Doctor;
 SELECT * FROM Usuario;
 SELECT * FROM HistorialClinico;
 SELECT * FROM Cita;
+SELECT * FROM Especialidad;
+
+
+
+-- pruebas 
+
+USE LabConsultorioMedico;
+GO
+
+
+
+go
+CREATE PROCEDURE paEspecialidadListar
+AS
+SELECT id, nombre, usuarioRegistro, fechaRegistro, estado
+FROM Especialidad
+WHERE estado = 1;
+GO
+
+
+CREATE PROC paDoctorListar
+AS
+SELECT D.id, D.nombreCompletoDoctor, E.nombre AS especialidad, D.cedulaIdentidad, D.direccion, D.celular
+FROM Doctor D
+JOIN Especialidad E ON D.idEspecialidad = E.id
+WHERE D.estado = 1;
+GO
+
+CREATE PROC paPacienteListar
+AS
+SELECT id, cedulaIdentidad, nombreCompletoPaciente, direccion, celular
+FROM Paciente
+WHERE estado = 1;
+
+go
+create PROC paCitaporFechaListar
+    @fecha DATE = NULL -- Parámetro opcional
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        C.id, 
+        D.nombreCompletoDoctor AS Doctor, 
+        P.nombreCompletoPaciente AS Paciente,
+        E.nombre AS Especialidad, 
+        C.fecha, 
+        C.hora
+    FROM Cita C
+    JOIN Doctor D ON C.idDoctor = D.id
+    JOIN Paciente P ON C.idPaciente = P.id
+    JOIN Especialidad E ON C.idEspecialidad = E.id
+    WHERE C.estado = 1
+      AND (@fecha IS NULL OR C.fecha = @fecha)
+END
+GO
+
+create PROC paCitaListar
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+        C.id, 
+        D.nombreCompletoDoctor AS Doctor, 
+        P.nombreCompletoPaciente AS Paciente,
+        E.nombre AS Especialidad, 
+        C.fecha, 
+        C.hora
+        FROM Cita C
+        JOIN Doctor D ON C.idDoctor = D.id
+        JOIN Paciente P ON C.idPaciente = P.id
+        JOIN Especialidad E ON C.idEspecialidad = E.id
+        WHERE C.estado = 1
+        END
+        GO
+
+
+        create PROC paHistorialClinicoListar
+        AS
+        BEGIN
+        SET NOCOUNT ON;
+        SELECT
+        HC.id,
+        HC.descripcion,
+        HC.diagnostico,
+        HC.tratamiento,
+        HC.fecha,
+        P.nombreCompletoPaciente AS Paciente
+        FROM HistorialClinico HC
+        LEFT JOIN Paciente P ON HC.idPaciente = P.id
+        WHERE HC.estado = 1
+        END
+
+        go
+        create PROC paPagoListar
+        AS
+        BEGIN
+        SET NOCOUNT ON;
+        SELECT
+        P.id,
+        C.id AS CitaID,
+        CON.descripcion AS Concepto,
+        P.fecha AS FechaPago
+        FROM Pago P
+        JOIN Cita C ON P.idCita = C.id
+        JOIN Concepto CON ON P.idConcepto = CON.id
+        WHERE P.estado = 1
+        END
+        GO
+SELECT id, usuario, clave, idDoctor, estado FROM Usuario;
+
+
+
