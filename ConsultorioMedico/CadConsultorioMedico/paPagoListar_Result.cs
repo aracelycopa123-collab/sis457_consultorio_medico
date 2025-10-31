@@ -13,15 +13,9 @@ namespace CadConsultorioMedico
     
     public partial class paPagoListar_Result
     {
-        public Nullable<int> id { get; set; }
-        public string nombreCompletoPaciente { get; set; }
-        public string descripcion { get; set; }
-        public Nullable<System.DateTime> fecha { get; set; }
-        public Nullable<System.TimeSpan> hora { get; set; }
-        public string nombre { get; set; }
-        public string nombreCompletoDoctor { get; set; }
-        public string usuarioRegistro { get; set; }
-        public Nullable<System.DateTime> fechaRegistro { get; set; }
-        public Nullable<short> estado { get; set; }
+        public int id { get; set; }
+        public int CitaID { get; set; }
+        public string Concepto { get; set; }
+        public System.DateTime FechaPago { get; set; }
     }
 }

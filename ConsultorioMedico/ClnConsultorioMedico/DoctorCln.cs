@@ -1,4 +1,5 @@
-ï»¿using System;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
@@ -74,7 +75,8 @@ namespace ClnConsultorioMedico
         {
             using (var context = new LabConsultorioMedicoEntities())
             {
-                return context.paDoctorListar(parametro).ToList();
+                // Llamada a la función generada sin parámetros
+                return context.paDoctorListar().ToList();
             }
         }
         public static List<Doctor> listar()

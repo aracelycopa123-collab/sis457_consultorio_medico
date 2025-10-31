@@ -4,25 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="49532caca09b477f97dfe371790d3c32" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Cita" Width="1.5" PointX="11.625" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Concepto" Width="1.5" PointX="7" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Doctor" Width="1.5" PointX="5" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Especialidad" Width="1.5" PointX="2.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.HistorialClinico" Width="1.5" PointX="14.375" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Paciente" Width="1.5" PointX="16.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Pago" Width="1.5" PointX="9.125" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Usuario" Width="1.5" PointX="2.625" PointY="12.75" IsExpanded="true" />
+      <Diagram DiagramId="8f7f2e54436e4206bab751d95b622d77" Name="Diagram1">
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Cita" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Concepto" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Doctor" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Especialidad" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.HistorialClinico" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Paciente" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Pago" Width="1.5" PointX="7.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabConsultorioMedicoModel.Usuario" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Cita_Doctor" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Cita_Especialidad" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Cita_Paciente" ManuallyRouted="false" />
-        <AssociationConnector Association="LabConsultorioMedicoModel.fk_HistorialClinico_Cita" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Pago_Cita" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Concepto_Especialidad" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Pago_Concepto" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Doctor_Especialidad" ManuallyRouted="false" />
         <AssociationConnector Association="LabConsultorioMedicoModel.fk_Usuario_Doctor" ManuallyRouted="false" />
-        <AssociationConnector Association="LabConsultorioMedicoModel.fk_HistorialClinico_Paciente" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,7 +53,8 @@ namespace ClnConsultorioMedico
         {
             using (var context = new LabConsultorioMedicoEntities())
             {
-                return context.paEspecialidadListar(parametro).ToList();
+                // El modelo generado no tiene sobrecarga con parámetro
+                return context.paEspecialidadListar().ToList();
             }
         }
         public static List<Especialidad> listar()

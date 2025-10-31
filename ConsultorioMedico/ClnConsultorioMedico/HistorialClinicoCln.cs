@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CadConsultorioMedico;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CadConsultorioMedico;
 
 namespace ClnConsultorioMedico
 {
@@ -57,7 +57,8 @@ namespace ClnConsultorioMedico
         {
             using (var context = new LabConsultorioMedicoEntities())
             {
-                return context.paHistorialClinicoListar(parametro).ToList();
+                // Contexto generado expone paHistorialClinicoListar() sin parámetros
+                return context.paHistorialClinicoListar().ToList();
             }
         }
     }

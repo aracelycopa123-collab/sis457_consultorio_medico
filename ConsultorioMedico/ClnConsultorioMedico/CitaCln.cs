@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,7 +55,8 @@ namespace ClnConsultorioMedico
         {
             using (var context = new LabConsultorioMedicoEntities())
             {
-                return context.paCitaListar(parametro).ToList();
+                // El modelo generado tiene paCitaListar() sin parámetros
+                return context.paCitaListar().ToList();
             }
         }
         public static List<paCitaporFechaListar_Result> listarFecha(DateTime parametroFecha)

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using CadConsultorioMedico;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using CadConsultorioMedico;
 
 namespace ClnConsultorioMedico
 {
@@ -59,7 +59,8 @@ namespace ClnConsultorioMedico
         {
             using (var context = new LabConsultorioMedicoEntities())
             {
-                return context.paPacienteListar(parametro).ToList();
+                // Llamada a la función sin parámetros
+                return context.paPacienteListar().ToList();
             }
         }
         public static Paciente buscar(string nombrePaciente)

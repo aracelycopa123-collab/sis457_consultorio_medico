@@ -18,7 +18,6 @@ namespace CadConsultorioMedico
         public Paciente()
         {
             this.Cita = new HashSet<Cita>();
-            this.HistorialClinico = new HashSet<HistorialClinico>();
         }
     
         public int id { get; set; }
@@ -32,7 +31,5 @@ namespace CadConsultorioMedico
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cita> Cita { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistorialClinico> HistorialClinico { get; set; }
     }
 }

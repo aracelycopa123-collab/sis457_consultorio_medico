@@ -17,7 +17,6 @@ namespace CadConsultorioMedico
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cita()
         {
-            this.HistorialClinico = new HashSet<HistorialClinico>();
             this.Pago = new HashSet<Pago>();
         }
     
@@ -34,8 +33,6 @@ namespace CadConsultorioMedico
         public virtual Doctor Doctor { get; set; }
         public virtual Especialidad Especialidad { get; set; }
         public virtual Paciente Paciente { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HistorialClinico> HistorialClinico { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pago> Pago { get; set; }
     }

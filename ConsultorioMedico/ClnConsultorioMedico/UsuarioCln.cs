@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CadConsultorioMedico;
 
+
 namespace ClnConsultorioMedico
 {
     public class UsuarioCln
@@ -23,7 +24,7 @@ namespace ClnConsultorioMedico
             using (var context = new LabConsultorioMedicoEntities())
             {
                 var existente = context.Usuario.Find(usuarioRegistro.id);
-                existente.usuario1 = usuarioRegistro.usuario1;
+                existente.usuario = usuarioRegistro.usuario;
                 existente.clave = usuarioRegistro.clave;
                 existente.usuarioRegistro = usuarioRegistro.usuarioRegistro;
                 return context.SaveChanges();
@@ -59,8 +60,9 @@ namespace ClnConsultorioMedico
             using (var context = new LabConsultorioMedicoEntities())
             {
                 return context.Usuario
-                    .Where(u => u.usuario1 == usuario && u.clave == clave)
-                    .FirstOrDefault();
+            .Where(u => u.usuario == usuario && u.clave == clave && u.estado == 1)
+            .FirstOrDefault();
+
             }
         }
     }

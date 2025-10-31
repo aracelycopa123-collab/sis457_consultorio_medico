@@ -36,67 +36,43 @@ namespace CadConsultorioMedico
         public virtual DbSet<Pago> Pago { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
     
-        public virtual ObjectResult<paCitaListar_Result> paCitaListar(string parametro)
+        public virtual ObjectResult<paCitaListar_Result> paCitaListar()
         {
-            var parametroParameter = parametro != null ?
-                new ObjectParameter("parametro", parametro) :
-                new ObjectParameter("parametro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paCitaListar_Result>("paCitaListar", parametroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paCitaListar_Result>("paCitaListar");
         }
     
-        public virtual ObjectResult<paCitaporFechaListar_Result> paCitaporFechaListar(Nullable<System.DateTime> parametrofecha)
+        public virtual ObjectResult<paCitaporFechaListar_Result> paCitaporFechaListar(Nullable<System.DateTime> fecha)
         {
-            var parametrofechaParameter = parametrofecha.HasValue ?
-                new ObjectParameter("parametrofecha", parametrofecha) :
-                new ObjectParameter("parametrofecha", typeof(System.DateTime));
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("fecha", fecha) :
+                new ObjectParameter("fecha", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paCitaporFechaListar_Result>("paCitaporFechaListar", parametrofechaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paCitaporFechaListar_Result>("paCitaporFechaListar", fechaParameter);
         }
     
-        public virtual ObjectResult<paDoctorListar_Result> paDoctorListar(string parametro)
+        public virtual ObjectResult<paDoctorListar_Result> paDoctorListar()
         {
-            var parametroParameter = parametro != null ?
-                new ObjectParameter("parametro", parametro) :
-                new ObjectParameter("parametro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paDoctorListar_Result>("paDoctorListar", parametroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paDoctorListar_Result>("paDoctorListar");
         }
     
-        public virtual ObjectResult<paEspecialidadListar_Result> paEspecialidadListar(string parametro)
+        public virtual ObjectResult<paEspecialidadListar_Result> paEspecialidadListar()
         {
-            var parametroParameter = parametro != null ?
-                new ObjectParameter("parametro", parametro) :
-                new ObjectParameter("parametro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paEspecialidadListar_Result>("paEspecialidadListar", parametroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paEspecialidadListar_Result>("paEspecialidadListar");
         }
     
-        public virtual ObjectResult<paHistorialClinicoListar_Result> paHistorialClinicoListar(string parametro)
+        public virtual ObjectResult<paHistorialClinicoListar_Result> paHistorialClinicoListar()
         {
-            var parametroParameter = parametro != null ?
-                new ObjectParameter("parametro", parametro) :
-                new ObjectParameter("parametro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paHistorialClinicoListar_Result>("paHistorialClinicoListar", parametroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paHistorialClinicoListar_Result>("paHistorialClinicoListar");
         }
     
-        public virtual ObjectResult<paPacienteListar_Result> paPacienteListar(string parametro)
+        public virtual ObjectResult<paPacienteListar_Result> paPacienteListar()
         {
-            var parametroParameter = parametro != null ?
-                new ObjectParameter("parametro", parametro) :
-                new ObjectParameter("parametro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paPacienteListar_Result>("paPacienteListar", parametroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paPacienteListar_Result>("paPacienteListar");
         }
     
-        public virtual ObjectResult<paPagoListar_Result> paPagoListar(string parametro)
+        public virtual ObjectResult<paPagoListar_Result> paPagoListar()
         {
-            var parametroParameter = parametro != null ?
-                new ObjectParameter("parametro", parametro) :
-                new ObjectParameter("parametro", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paPagoListar_Result>("paPagoListar", parametroParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paPagoListar_Result>("paPagoListar");
         }
     }
 }

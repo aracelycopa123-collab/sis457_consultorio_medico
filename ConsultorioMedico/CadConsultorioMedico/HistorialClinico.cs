@@ -15,16 +15,13 @@ namespace CadConsultorioMedico
     public partial class HistorialClinico
     {
         public int id { get; set; }
-        public int idPaciente { get; set; }
-        public int idCita { get; set; }
+        public string descripcion { get; set; }
         public string diagnostico { get; set; }
         public string tratamiento { get; set; }
-        public System.DateTime fecha { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public Nullable<int> idPaciente { get; set; }
         public string usuarioRegistro { get; set; }
         public System.DateTime fechaRegistro { get; set; }
         public short estado { get; set; }
-    
-        public virtual Cita Cita { get; set; }
-        public virtual Paciente Paciente { get; set; }
     }
 }
