@@ -136,7 +136,7 @@ INSERT INTO Especialidad (nombre)
 VALUES ('Cardiología')
 
 INSERT INTO Especialidad (nombre)
-VALUES ('Odontología')
+VALUES ('Dermatología')
 
 INSERT INTO Doctor (idEspecialidad,cedulaIdentidad, nombreCompletoDoctor, direccion, celular)
 VALUES (1,'12345678','Juan Pérez López', 'ave. americas', 11121314), 
