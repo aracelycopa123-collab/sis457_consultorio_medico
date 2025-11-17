@@ -85,8 +85,10 @@ CREATE TABLE HistorialClinico (
   diagnostico VARCHAR(250),
   tratamiento VARCHAR(250),
   fecha DATE DEFAULT GETDATE(),
-  idPaciente INT NULL
+  idPaciente INT NOT NULL, 
+  CONSTRAINT fk_HistorialClinico_Paciente FOREIGN KEY (idPaciente) REFERENCES Paciente(id)
 );
+
 
 CREATE TABLE Pago (
   id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -131,21 +133,21 @@ alter table HistorialClinico add usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SU
 	estado SMALLINT NOT NULL DEFAULT 1; -- -1:Eliminado, 0: Inactivo, 1: Activo
 
 INSERT INTO Especialidad (nombre)
-VALUES ('CardiologÌa')
+VALUES ('Cardiolog√≠a')
 
 INSERT INTO Especialidad (nombre)
-VALUES ('OdontologÌa')
+VALUES ('Odontolog√≠a')
 
 INSERT INTO Doctor (idEspecialidad,cedulaIdentidad, nombreCompletoDoctor, direccion, celular)
-VALUES (1,'12345678','Juan PÈrez LÛpez', 'ave. americas', 11121314), 
-(1,'12345678','Gloria Rosales Cardona', 'Av. PacÌfico #456', 77123456),
-(2,'87654321', 'MarÌa Gonz·lez Padilla', ' 6 de agosto', 12131415),
+VALUES (1,'12345678','Juan P√©rez L√≥pez', 'ave. americas', 11121314), 
+(1,'12345678','Gloria Rosales Cardona', 'Av. Pac√≠fico #456', 77123456),
+(2,'87654321', 'Mar√≠a Gonz√°lez Padilla', ' 6 de agosto', 12131415),
 (2,'18273737','pablito alcachofa', 'mercado campesino', 18273474);
 
 INSERT INTO Paciente (cedulaIdentidad, nombreCompletoPaciente, direccion, celular) VALUES
-('12345678', 'Juan PÈrez GÛmez', 'Av. Siempre Viva 123', 789456123),
-('87654321', 'MarÌa LÛpez S·nchez', 'Calle Falsa 456', 712345678),
-('45678912', 'Carlos RamÌrez Salazar', 'Av. Central 890', 756789432);
+('12345678', 'Juan P√©rez G√≥mez', 'Av. Siempre Viva 123', 789456123),
+('87654321', 'Mar√≠a L√≥pez S√°nchez', 'Calle Falsa 456', 712345678),
+('45678912', 'Carlos Ram√≠rez Salazar', 'Av. Central 890', 756789432);
 
 INSERT INTO Cita (idDoctor, idPaciente,idEspecialidad, fecha, hora) VALUES
 (1, 1,1, '2025-07-01', '09:00'),
@@ -155,9 +157,9 @@ INSERT INTO Cita (idDoctor, idPaciente,idEspecialidad, fecha, hora) VALUES
 
 INSERT INTO Concepto(idEspecialidad,descripcion,costo)
 VALUES
-(1,'Consulta mÈdica',100),
-(1,'RevisiÛn mÈdica',150),
-(2,'Chequeo odontolÛgico',100),
+(1,'Consulta m√©dica',100),
+(1,'Revisi√≥n m√©dica',150),
+(2,'Chequeo odontol√≥gico',100),
 (2,'Limpieza dental',150);
 
 INSERT INTO Pago (idCita, idConcepto) VALUES
@@ -215,7 +217,7 @@ WHERE estado = 1;
 
 go
 create PROC paCitaporFechaListar
-    @fecha DATE = NULL -- Par·metro opcional
+    @fecha DATE = NULL -- Par√°metro opcional
 AS
 BEGIN
     SET NOCOUNT ON;
