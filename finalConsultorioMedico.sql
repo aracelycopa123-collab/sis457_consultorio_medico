@@ -17,7 +17,6 @@ GO
 
 /* ============================
    TABLAS
-   ============================ */
 
 -- Tabla Especialidad
 CREATE TABLE Especialidad(
@@ -36,7 +35,7 @@ CREATE TABLE Doctor(
     nombres VARCHAR(30) NOT NULL, -- nombre
     primerApellido VARCHAR(30) NULL, -- apellido 1
     segundoApellido VARCHAR(30) NULL, -- apellido 2
-    direccion VARCHAR(250) NOT NULL, -- dirección
+    direccion VARCHAR(250) NOT NULL, -- direcciÃ³n
     celular BIGINT NOT NULL, -- celular
     usuarioRegistro VARCHAR(50) NOT NULL, -- usuario
     fechaRegistro DATETIME NOT NULL, -- fecha
@@ -50,7 +49,7 @@ CREATE TABLE Paciente(
     nombres VARCHAR(30) NOT NULL, -- nombre
     primerApellido VARCHAR(30) NULL, -- apellido 1
     segundoApellido VARCHAR(30) NULL, -- apellido 2
-    direccion VARCHAR(200) NULL, -- dirección
+    direccion VARCHAR(200) NULL, -- direcciÃ³n
     celular BIGINT NOT NULL, -- celular
     usuarioRegistro VARCHAR(50) NOT NULL, -- usuario
     fechaRegistro DATETIME NOT NULL, -- fecha
@@ -155,4 +154,5 @@ ALTER TABLE Usuario    ADD FOREIGN KEY(idDoctor) REFERENCES Doctor(id);
 --USUARIO prueba
 INSERT INTO Usuario(usuario, clave, idDoctor)
 VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
+
 GO
