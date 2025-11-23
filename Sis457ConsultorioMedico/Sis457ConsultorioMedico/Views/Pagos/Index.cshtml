@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Pago>
+
+@{
+	ViewData["Title"] = "Pagos";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+	<div class="container section-title" data-aos="fade-up">
+		<h2>Pagos</h2>
+	</div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Paciente</th>
+				<th>Concepto</th>
+				<th>Costo</th>
+				<th>Usuario Registro</th>
+				<th>Fecha Registro</th>
+				<th>Estado</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Fecha)
+					</td>
+					<td>
+						@($"{item.IdCitaNavigation.IdPacienteNavigation.Nombres} {item.IdCitaNavigation.IdPacienteNavigation.PrimerApellido} {item.IdCitaNavigation.IdPacienteNavigation.SegundoApellido}")
+					</td>
+					<td>@item.IdConceptoNavigation.Descripcion</td>
+					<td>@item.IdConceptoNavigation.Costo.ToString("C")</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.UsuarioRegistro)
+					</td>
+					<td>
+						@item.FechaRegistro.ToString("dd/MM/yyyy")
+					</td>
+					<td>
+						@(item.Estado == 1 ? "Activo" : "Inactivo")
+					</td>
+					<td>
+						<a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

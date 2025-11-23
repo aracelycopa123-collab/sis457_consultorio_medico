@@ -1,0 +1,61 @@
+## Visual Studio y .NET ##
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.cache
+*.vsidx
+*.pdb
+*.exe
+*.db
+
+## Archivos de configuración local ##
+*.backup.json
+DocumentLayout.json
+
+## Archivos de compilación ##
+*.csproj.AssemblyReference.cache
+DesignTimeResolveAssemblyReferencesInput.cache
+
+## Otros ##
+.DS_Store
+Thumbs.db
+.vs/
+bin/
+obj/
+*.suo
+*.dll
+*.pdb
+*.cache
+*.exe
+
+# Archivos de usuario de Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos de configuración de VS
+.vs/
+
+# Compilados binarios
+bin/
+obj/
+
+# Archivos DLL, PDB, ejecutables
+*.dll
+*.pdb
+*.exe
+
+# Cache de diseño
+*.cache
+*.log
+
+# Archivos de licencias generados
+*.licenses
+
+# Otros innecesarios
+*.dbmdl
+*.bak
+*.tmp

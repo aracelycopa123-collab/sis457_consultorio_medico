@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Doctor>
+
+@{
+	ViewData["Title"] = "Doctores";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+	<div class="container section-title" data-aos="fade-up">
+		<h2>Doctores</h2>
+	</div>
+	<p>
+		<a asp-action="Create"><i class="fa-solid fa-user-plus"></i> Registrar Nuevo</a>
+	</p>
+	<table class="table small">
+		<thead>
+			<tr>
+				<th>Cédula de Identidad</th>
+				<th>Nombres</th>
+				<th>Apellido Paterno</th>
+				<th>Apellido Materno</th>
+				<th>Especialidad</th>
+				<th>Dirección</th>
+				<th>Celular</th>
+				<th>Usuario</th>
+				<th>Usuario Registro</th>
+				<th>Fecha Registro</th>
+				<th>Estado</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.CedulaIdentidad)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Nombres)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.PrimerApellido)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.SegundoApellido)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.IdEspecialidadNavigation.Nombre)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Direccion)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Celular)
+					</td>
+					<td>
+						@(item.Usuarios.Count > 0 ? item.Usuarios.FirstOrDefault().Usuario1 : "--")
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.UsuarioRegistro)
+					</td>
+					<td>
+						@item.FechaRegistro.ToString("dd/MM/yyyy")
+					</td>
+					<td>
+						@(item.Estado == 1 ? "Activo" : "Inactivo")
+					</td>
+					<td>
+						<a asp-controller="Usuarios" asp-action="Create" asp-route-idDoctor="@item.Id"><i class="fa-solid fa-key"></i></a> |
+						<a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-eye"></i></a> |
+						<a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-user-pen"></i></a> |
+						<a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

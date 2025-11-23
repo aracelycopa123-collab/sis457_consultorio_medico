@@ -1,0 +1,81 @@
+﻿@model Sis457ConsultorioMedico.Models.Especialidad
+
+@{
+    ViewData["Title"] = "Registrar Especialidad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Registrar Especialidad</h2>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <!-- FORMULARIO -->
+                    <form asp-action="Create" asp-controller="Especialidades" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label">Nombre</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-stethoscope"></i></span>
+                                <input asp-for="Nombre" class="form-control" placeholder="Ej. Medicina General" />
+                            </div>
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                            <div id="nombreExistsFeedback" class="text-danger mt-1"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a asp-action="Index" asp-controller="Especialidades" class="btn btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-floppy-disk"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        (function () {
+            const nombreInput = document.querySelector('input[name="Nombre"]');
+            if (!nombreInput) return;
+
+            async function checkNombre() {
+                const nombre = nombreInput.value.trim();
+                if (!nombre) {
+                    document.getElementById('nombreExistsFeedback').textContent = '';
+                    return;
+                }
+
+                const url = `/Especialidades/ExisteNombre?nombre=${encodeURIComponent(nombre)}`;
+                try {
+                    const res = await fetch(url);
+                    const existe = await res.json();
+                    document.getElementById('nombreExistsFeedback').textContent =
+                        existe ? 'Ya existe una especialidad con ese nombre.' : '';
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            nombreInput.addEventListener('blur', checkNombre);
+            nombreInput.addEventListener('input', () => {
+                document.getElementById('nombreExistsFeedback').textContent = '';
+            });
+        })();
+    </script>
+}

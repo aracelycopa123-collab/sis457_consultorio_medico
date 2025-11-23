@@ -1,0 +1,45 @@
+﻿@model Sis457ConsultorioMedico.Models.Pago
+
+@{
+	ViewData["Title"] = "Details";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
+	<div class="container section-title" data-aos="fade-up">
+		<h2>Detalles del Pago</h2>
+	</div>
+	<dl class="row">
+		<dt class="col-sm-2">Fecha</dt>
+		<dd class="col-sm-10">
+			@(Model.Fecha.ToLongDateString())
+		</dd>
+		<dt class="col-sm-2">Paciente</dt>
+		<dd class="col-sm-10">
+			@($"{Model.IdCitaNavigation.IdPacienteNavigation.Nombres} {Model.IdCitaNavigation.IdPacienteNavigation.PrimerApellido} {Model.IdCitaNavigation.IdPacienteNavigation.SegundoApellido}")
+		</dd>
+		<dt class="col-sm-2">Concepto</dt>
+		<dd class="col-sm-10">
+			@Model.IdConceptoNavigation.Descripcion
+		</dd>
+		<dt class="col-sm-2">Concepto de Pago</dt>
+		<dd class="col-sm-10">
+			@Model.IdConceptoNavigation.Costo.ToString("C")
+		</dd>
+		<dt class="col-sm-2">Usuario Registro</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UsuarioRegistro)
+		</dd>
+		<dt class="col-sm-2">Fecha de Registro</dt>
+		<dd class="col-sm-10">
+			@(Model.FechaRegistro.ToLongDateString() + " " + Model.FechaRegistro.ToShortTimeString())
+		</dd>
+		<dt class="col-sm-2">Estado</dt>
+		<dd class="col-sm-10">
+			@(Model.Estado == 1 ? "Activo" : "Inactivo")
+		</dd>
+	</dl>
+	<div class="col-md-4">
+		<a asp-action="Index"><i class="fa-solid fa-arrow-left"></i> Volver a la lista</a>
+	</div>
+</div>

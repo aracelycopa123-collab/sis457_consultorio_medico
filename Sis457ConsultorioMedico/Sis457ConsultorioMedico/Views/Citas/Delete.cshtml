@@ -1,0 +1,71 @@
+﻿@model Sis457ConsultorioMedico.Models.Cita
+
+@{
+	ViewData["Title"] = "Borrar Cita";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Error"] != null)
+{
+	<div class="alert alert-danger">
+		@TempData["Error"]
+	</div>
+}
+
+<div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
+	<div class="container section-title" data-aos="fade-up">
+		<h2>Eliminar Cita</h2>
+		<h3>¿Esta seguro que desea eliminar la Cita?</h3>
+	</div>
+
+	<div>
+		<dl class="row">
+			<dt class="col-sm-2">Fecha</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Fecha)
+			</dd>
+			<dt class="col-sm-2">Hora</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Hora)
+			</dd>
+			<dt class="col-sm-2">Paciente</dt>
+			<dd class="col-sm-10">
+				@(Model.IdPacienteNavigation.Nombres + " " + Model.IdPacienteNavigation.PrimerApellido + " " + Model.IdPacienteNavigation.SegundoApellido)
+			</dd>
+			<dt class="col-sm-2">Doctor
+			<dd class="col-sm-10">
+					@(Model.IdDoctorNavigation.Nombres + " " + Model.IdDoctorNavigation.PrimerApellido + " " + Model.IdDoctorNavigation.SegundoApellido)
+			</dd>
+			<dt class="col-sm-2">Especialidad</dt>
+			<dd class="col-sm-10">
+					@Model.IdEspecialidadNavigation.Nombre
+			</dd>
+			<dt class="col-sm-2">Pagado</dt>
+			<dd class="col-sm-10">
+					@(Model.Pagos != null && Model.Pagos.Any() ? "Sí" : "No")
+			</dd>
+			<dt class="col-sm-2">Fecha de Pago</dt>
+			<dd class="col-sm-10">
+					@(Model.Pagos.FirstOrDefault()?.Fecha.ToString("dd/MM/yyyy") ?? "--")
+			</dd>
+			<dt class="col-sm-2">Usuario Registro</dt>
+			<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.UsuarioRegistro)
+			</dd>
+			<dt class="col-sm-2">Fecha Registro</dt>
+			<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.FechaRegistro)
+			</dd>
+			<dt class="col-sm-2">Estado</dt>
+			<dd class="col-sm-10">
+					@(Model.Estado == 1 ? "Activo" : "Inactivo")
+			</dd>
+		</dl>
+
+		<form asp-action="Delete">
+			<input type="hidden" asp-for="Id" />
+			<button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Eliminar</button> |
+			<a asp-action="Index"><i class="fa-solid fa-arrow-left"></i>Volver a la Lista</a>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,196 @@
+﻿@model Sis457ConsultorioMedico.Models.Cita
+
+@{
+	ViewData["Title"] = "Agendar Cita";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
+	<div class="container section-title" data-aos="fade-up">
+		<h2>Agendar Cita</h2>
+	</div>
+
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<form asp-action="Create" method="post" novalidate>
+						@Html.AntiForgeryToken()
+						<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+						<div class="row g-3">
+							<div class="col-md-6">
+								<label for="ciPaciente" class="form-label">CI del Paciente</label>
+								<div class="input-group">
+									<input type="text" id="ciPaciente" class="form-control" placeholder="Buscar por cédula" />
+									<button type="button" class="btn btn-outline-secondary" id="btnBuscarPaciente" title="Buscar paciente">
+										<i class="fa-solid fa-magnifying-glass"></i>
+									</button>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<label class="form-label">Paciente</label>
+								<input asp-for="IdPaciente" type="hidden" />
+								<div class="input-group">
+									<span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+									<input type="text" id="nombrePaciente" class="form-control" placeholder="Nombre del paciente" readonly value="@ViewBag.NombrePaciente" />
+								</div>
+								<span asp-validation-for="IdPaciente" class="text-danger"></span>
+							</div>
+
+							<div class="col-md-6">
+								<label asp-for="IdEspecialidad" class="form-label">Especialidad</label>
+								<select id="especialidadSelect" class="form-select" name="IdEspecialidad" asp-for="IdEspecialidad">
+									<option disabled selected value="0">Seleccione una especialidad</option>
+									@foreach (var especialidad in ViewBag.Especialidades as List<Sis457ConsultorioMedico.Models.Especialidad>)
+									{
+										<option value="@especialidad.Id">@especialidad.Nombre</option>
+									}
+								</select>
+								<span asp-validation-for="IdEspecialidad" class="text-danger"></span>
+							</div>
+
+							<div class="col-md-6">
+								<label asp-for="IdDoctor" class="form-label">Doctor</label>
+								<select asp-for="IdDoctor" class="form-select" id="doctorSelect">
+									<option disabled selected value="0">Seleccione un doctor</option>
+								</select>
+								<span asp-validation-for="IdDoctor" class="text-danger"></span>
+							</div>
+
+							<div class="col-md-6">
+								<label asp-for="Fecha" class="form-label">Fecha</label>
+								<input asp-for="Fecha" class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+								<span asp-validation-for="Fecha" class="text-danger"></span>
+							</div>
+
+							<div class="col-md-6">
+								<label asp-for="Hora" class="form-label">Hora</label>
+								<select asp-for="Hora" class="form-select">
+									<option disabled selected value="">Seleccione una hora</option>
+									<option value="09:00">09:00</option>
+									<option value="09:30">09:30</option>
+									<option value="10:00">10:00</option>
+									<option value="10:30">10:30</option>
+									<option value="11:00">11:00</option>
+									<option value="11:30">11:30</option>
+									<option value="12:00">12:00</option>
+									<option value="12:30">12:30</option>
+									<option value="13:00">13:00</option>
+									<option value="13:30">13:30</option>
+									<option value="14:00">14:00</option>
+									<option value="14:30">14:30</option>
+									<option value="15:00">15:00</option>
+									<option value="15:30">15:30</option>
+									<option value="16:00">16:00</option>
+									<option value="16:30">16:30</option>
+									<option value="17:00">17:00</option>
+								</select>
+								<span asp-validation-for="Hora" class="text-danger"></span>
+							</div>
+						</div>
+
+						<div class="mt-4 d-flex justify-content-between align-items-center">
+							<a asp-action="Index" class="btn btn-secondary">
+								<i class="fa-solid fa-arrow-left"></i> Volver a la lista
+							</a>
+							<button type="submit" class="btn btn-primary">
+								<i class="fa-solid fa-calendar-plus"></i> Agendar Cita
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+	<script>
+		// Buscar paciente por CI al presionar el botón o al salir del campo
+		async function buscarPacientePorCI(ci) {
+			if (!ci) return;
+			try {
+				const res = await fetch(`/Pacientes/BuscarPorCI?ci=${encodeURIComponent(ci)}`);
+				const data = await res.json();
+				if (data && data.nombreCompleto) {
+					document.getElementById('nombrePaciente').value = data.nombreCompleto;
+					document.querySelector('input[name="IdPaciente"]').value = data.id;
+				} else {
+					document.getElementById('nombrePaciente').value = "No existe el Paciente";
+					document.querySelector('input[name="IdPaciente"]').value = "";
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		}
+
+		document.getElementById('btnBuscarPaciente').addEventListener('click', function () {
+			const ci = document.getElementById('ciPaciente').value.trim();
+			buscarPacientePorCI(ci);
+		});
+
+		document.getElementById('ciPaciente').addEventListener('blur', function () {
+			const ci = this.value.trim();
+			if (ci) buscarPacientePorCI(ci);
+		});
+
+		// Cargar doctores según especialidad
+		document.getElementById("especialidadSelect").addEventListener("change", function () {
+			const especialidadId = this.value;
+			const doctorSelect = document.getElementById("doctorSelect");
+			doctorSelect.innerHTML = '<option disabled selected value="">Cargando...</option>';
+
+			fetch(`/Citas/ObtenerDoctoresPorEspecialidad?idEspecialidad=${especialidadId}`)
+				.then(response => response.json())
+				.then(data => {
+					doctorSelect.innerHTML = '<option disabled selected value="">Seleccione un doctor</option>';
+					if (data.length > 0) {
+						data.forEach(doctor => {
+							const option = document.createElement("option");
+							option.value = doctor.id;
+							option.text = doctor.nombreCompleto;
+							doctorSelect.appendChild(option);
+						});
+					} else {
+						const option = document.createElement("option");
+						option.disabled = true;
+						option.text = "No hay doctores disponibles";
+						doctorSelect.appendChild(option);
+					}
+				});
+		});
+
+		// Inicializar si ya hay especialidad seleccionada (caso edición)
+		window.addEventListener('DOMContentLoaded', function () {
+			const especialidadId = document.getElementById("especialidadSelect")?.value;
+			const doctorIdActual = '@(Model?.IdDoctor ?? 0)';
+			if (especialidadId && especialidadId !== "0") {
+				const doctorSelect = document.getElementById("doctorSelect");
+				doctorSelect.innerHTML = '<option disabled selected value="">Cargando...</option>';
+				fetch(`/Citas/ObtenerDoctoresPorEspecialidad?idEspecialidad=${especialidadId}`)
+					.then(response => response.json())
+					.then(data => {
+						doctorSelect.innerHTML = '<option disabled selected value="">Seleccione un doctor</option>';
+						if (data.length > 0) {
+							data.forEach(doctor => {
+								const option = document.createElement("option");
+								option.value = doctor.id;
+								option.text = doctor.nombreCompleto;
+								if (doctor.id == doctorIdActual) option.selected = true;
+								doctorSelect.appendChild(option);
+							});
+						} else {
+							const option = document.createElement("option");
+							option.disabled = true;
+							option.text = "No hay doctores disponibles";
+							doctorSelect.appendChild(option);
+						}
+					});
+			}
+		});
+	</script>
+}

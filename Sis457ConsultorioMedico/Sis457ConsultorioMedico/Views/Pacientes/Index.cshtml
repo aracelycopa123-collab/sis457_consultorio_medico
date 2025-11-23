@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Paciente>
+
+@{
+    ViewData["Title"] = "Pacientes";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Pacientes</h1>
+    <a asp-action="Create" class="btn btn-primary">Registrar Nuevo</a>
+</div>
+
+<table class="table table-striped table-hover table-bordered align-middle">
+    <thead class="table-light">
+        <tr>
+            <th style="width:48px">#</th>
+            <th>Cédula de Identidad</th>
+            <th>Nombres</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th style="width:130px">Fecha Nac.</th>
+            <th>Dirección</th>
+            <th>Celular</th>
+            <th>Usuario Registro</th>
+            <th style="width:120px">Fecha Registro</th>
+            <th style="width:90px">Estado</th>
+            <th style="width:180px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.CedulaIdentidad</td>
+                <td>@item.Nombres</td>
+                <td>@item.PrimerApellido</td>
+                <td>@item.SegundoApellido</td>
+                <td>
+                    @(item.FechaNacimiento.HasValue
+                                    ? item.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+                                    : String.Empty)
+                                               </td>
+                                               <td>@item.Direccion</td>
+                                               <td>@item.Celular</td>
+                                               <td>@item.UsuarioRegistro</td>
+                                               <td>
+                    @(item.FechaRegistro != DateTime.MinValue
+                                    ? item.FechaRegistro.ToString("dd/MM/yyyy")
+                                    : String.Empty)
+            </td>
+            <td>
+                @(item.Estado == 1 ? "Activo" : item.Estado == -1 ? "Inactivo" : "Otro")
+            </td>
+            <td>
+                <div class="d-flex gap-2">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Detalles">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary" title="Editar">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </a>
+                    <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este paciente?');" title="Eliminar">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+                }
+    </tbody>
+</table>
