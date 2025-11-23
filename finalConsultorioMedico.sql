@@ -136,9 +136,6 @@ ALTER TABLE Usuario    ADD DEFAULT (getdate()) FOR fechaRegistro;
 ALTER TABLE Usuario    ADD DEFAULT (1) FOR estado;
 
 
-/* ============================
-   RELACIONES 
-   ============================ */
 
 ALTER TABLE Doctor     ADD FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id);
 ALTER TABLE Concepto   ADD FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id);
@@ -154,5 +151,6 @@ INSERT INTO Usuario(usuario, clave, idDoctor)
 VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
 
 GO
+
 
 
