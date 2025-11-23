@@ -18,11 +18,11 @@ GO
 
 -- Tabla Especialidad
 CREATE TABLE Especialidad(
-    id INT IDENTITY(1,1) PRIMARY KEY, -- PK
-    nombre VARCHAR(30) NOT NULL, -- nombre
-    usuarioRegistro VARCHAR(50) NOT NULL, -- usuario
-    fechaRegistro DATETIME NOT NULL, -- fecha
-    estado SMALLINT NOT NULL -- estado
+    id INT IDENTITY(1,1) PRIMARY KEY, 
+    nombre VARCHAR(30) NOT NULL, 
+    usuarioRegistro VARCHAR(50) NOT NULL, 
+    fechaRegistro DATETIME NOT NULL, 
+    estado SMALLINT NOT NULL 
 );
 
 -- Tabla Doctor
@@ -154,4 +154,5 @@ INSERT INTO Usuario(usuario, clave, idDoctor)
 VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
 
 GO
+
 
