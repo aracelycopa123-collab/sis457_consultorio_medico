@@ -20,7 +20,7 @@ public partial class Concepto
 
     public short Estado { get; set; }
 
-    // Navigation nullable para evitar validación de propiedad de navegación
+
     public virtual Especialidad? IdEspecialidadNavigation { get; set; }
 
     public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
