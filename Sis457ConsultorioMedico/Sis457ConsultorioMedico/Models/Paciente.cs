@@ -20,7 +20,7 @@ namespace Sis457ConsultorioMedico.Models
 
         public string? SegundoApellido { get; set; }
 
-        // Ya no es obligatorio
+
         public string? Direccion { get; set; }
 
         [Required(ErrorMessage = "El campo Celular es obligatorio.")]
