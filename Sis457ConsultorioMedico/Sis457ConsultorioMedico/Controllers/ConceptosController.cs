@@ -178,7 +178,7 @@ namespace Sis457ConsultorioMedico.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ConceptoExists(int id)
+        
         {
             return _context.Conceptos.Any(e => e.Id == id);
         }
