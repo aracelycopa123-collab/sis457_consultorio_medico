@@ -15,7 +15,6 @@ ALTER ROLE [db_owner] ADD MEMBER [usrconsultoriomedico]
 GO
 
 
-
 DROP TABLE Pago;
 DROP TABLE Cita;
 DROP TABLE Usuario;
