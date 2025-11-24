@@ -75,7 +75,6 @@ CREATE TABLE Cita (
   CONSTRAINT fk_Cita_Especialidad FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id)
 );
 
-
 CREATE TABLE HistorialClinico (
   id INT PRIMARY KEY IDENTITY(1,1),
   descripcion VARCHAR(250),
