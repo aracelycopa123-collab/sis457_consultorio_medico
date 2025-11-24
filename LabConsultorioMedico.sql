@@ -37,7 +37,6 @@ CREATE TABLE Concepto (
   CONSTRAINT fk_Concepto_Especialidad FOREIGN KEY (idEspecialidad) REFERENCES Especialidad(id)
 );
 
-
 CREATE TABLE Paciente (
   id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
   cedulaIdentidad VARCHAR(12) NOT NULL,
