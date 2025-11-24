@@ -85,7 +85,6 @@ CREATE TABLE HistorialClinico (
   CONSTRAINT fk_HistorialClinico_Paciente FOREIGN KEY (idPaciente) REFERENCES Paciente(id)
 );
 
-
 CREATE TABLE Pago (
   id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
   idCita INT NOT NULL,
