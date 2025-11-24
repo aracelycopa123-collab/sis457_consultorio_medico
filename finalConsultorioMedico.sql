@@ -10,7 +10,7 @@ GO
 CREATE USER usrfinalconsultoriomedico FOR LOGIN usrfinalconsultoriomedico;
 GO
 
--- Dar permisos db_owner
+
 ALTER ROLE db_owner ADD MEMBER usrfinalconsultoriomedico;
 GO
 
@@ -151,6 +151,7 @@ INSERT INTO Usuario(usuario, clave, idDoctor)
 VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
 
 GO
+
 
 
 
