@@ -69,7 +69,6 @@ namespace Sis457ConsultorioMedico.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(especialidad);
         }
 
         // GET: Especialidades/Edit/5
