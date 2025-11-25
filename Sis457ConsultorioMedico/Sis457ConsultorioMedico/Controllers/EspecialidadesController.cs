@@ -56,6 +56,7 @@ namespace Sis457ConsultorioMedico.Controllers
             if (await _context.Especialidades.AnyAsync(e => e.Nombre.ToUpper() == especialidad.Nombre.Trim().ToUpper()))
             {
                 ModelState.AddModelError("Nombre", "Ya existe una especialidad con ese nombre.");
+                            return View(especialidad);
             }
 
             if (ModelState.IsValid)
