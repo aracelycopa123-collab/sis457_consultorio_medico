@@ -49,6 +49,7 @@ namespace Sis457ConsultorioMedico.Controllers
             if (string.IsNullOrWhiteSpace(especialidad.Nombre))
             {
                 ModelState.AddModelError("Nombre", "El nombre es obligatorio.");
+                            return View(especialidad);
             }
 
             // Validar duplicado
