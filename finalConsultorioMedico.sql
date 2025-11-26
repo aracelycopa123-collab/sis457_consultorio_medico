@@ -132,14 +132,7 @@ ALTER TABLE Usuario    ADD DEFAULT (1) FOR estado;
 
 
 
-ALTER TABLE Doctor     ADD FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id);
-ALTER TABLE Concepto   ADD FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id);
-ALTER TABLE Cita       ADD FOREIGN KEY(idEspecialidad) REFERENCES Especialidad(id);
-ALTER TABLE Cita       ADD FOREIGN KEY(idDoctor) REFERENCES Doctor(id);
-ALTER TABLE Cita       ADD FOREIGN KEY(idPaciente) REFERENCES Paciente(id);
-ALTER TABLE Pago       ADD FOREIGN KEY(idCita) REFERENCES Cita(id);
-ALTER TABLE Pago       ADD FOREIGN KEY(idConcepto) REFERENCES Concepto(id);
-ALTER TABLE Usuario    ADD FOREIGN KEY(idDoctor) REFERENCES Doctor(id);
+
 
 
 
