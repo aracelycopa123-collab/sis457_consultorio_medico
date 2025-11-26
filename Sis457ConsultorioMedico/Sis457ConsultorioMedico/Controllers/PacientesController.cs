@@ -21,13 +21,12 @@ namespace Sis457ConsultorioMedico.Controllers
             _context = context;
         }
 
-        // GET: Pacientes
+
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pacientes.Where(x => x.Estado != -1).ToListAsync());
         }
 
-        // GET: Pacientes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,9 +50,7 @@ namespace Sis457ConsultorioMedico.Controllers
             return View();
         }
 
-        // POST: Pacientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Paciente paciente)
@@ -89,7 +86,7 @@ namespace Sis457ConsultorioMedico.Controllers
             return View(paciente);
         }
 
-        // GET: Pacientes/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,9 +102,7 @@ namespace Sis457ConsultorioMedico.Controllers
             return View(paciente);
         }
 
-        // POST: Pacientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CedulaIdentidad,Nombres,PrimerApellido,SegundoApellido,FechaNacimiento,Direccion,Celular,UsuarioRegistro,FechaRegistro,Estado")] Paciente paciente)
@@ -153,70 +148,5 @@ namespace Sis457ConsultorioMedico.Controllers
                     if (!PacienteExists(paciente.Id))
                     {
                         return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(paciente);
-        }
 
-        // GET: Pacientes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var paciente = await _context.Pacientes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (paciente == null)
-            {
-                return NotFound();
-            }
-
-            return View(paciente);
-        }
-
-        // POST: Pacientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var paciente = await _context.Pacientes.FindAsync(id);
-            if (paciente != null)
-            {
-                paciente.Estado = -1;
-                paciente.UsuarioRegistro = User.Identity.Name;
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PacienteExists(int id)
-        {
-            return _context.Pacientes.Any(e => e.Id == id);
-        }
-
-        [HttpGet]
-        public IActionResult BuscarPorCI(string ci)
-        {
-            var paciente = _context.Pacientes
-                .Where(p => p.CedulaIdentidad == ci)
-                .Select(p => new
-                {
-                    Id = p.Id,
-                    NombreCompleto = p.Nombres + " " + p.PrimerApellido + " " + p.SegundoApellido
-                })
-                .FirstOrDefault();
-
-            return Json(paciente);
-        }
-
-    }
-}
