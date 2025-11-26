@@ -113,22 +113,6 @@ ALTER TABLE Doctor     ADD DEFAULT (suser_sname()) FOR usuarioRegistro;
 ALTER TABLE Doctor     ADD DEFAULT (getdate()) FOR fechaRegistro;
 ALTER TABLE Doctor     ADD DEFAULT (1) FOR estado;
 
-ALTER TABLE Especialidad ADD DEFAULT (suser_sname()) FOR usuarioRegistro;
-ALTER TABLE Especialidad ADD DEFAULT (getdate()) FOR fechaRegistro;
-ALTER TABLE Especialidad ADD DEFAULT (1) FOR estado;
-
-ALTER TABLE Paciente   ADD DEFAULT (suser_sname()) FOR usuarioRegistro;
-ALTER TABLE Paciente   ADD DEFAULT (getdate()) FOR fechaRegistro;
-ALTER TABLE Paciente   ADD DEFAULT (1) FOR estado;
-
-ALTER TABLE Pago       ADD DEFAULT (getdate()) FOR fecha;
-ALTER TABLE Pago       ADD DEFAULT (suser_sname()) FOR usuarioRegistro;
-ALTER TABLE Pago       ADD DEFAULT (getdate()) FOR fechaRegistro;
-ALTER TABLE Pago       ADD DEFAULT (1) FOR estado;
-
-ALTER TABLE Usuario    ADD DEFAULT (suser_sname()) FOR usuarioRegistro;
-ALTER TABLE Usuario    ADD DEFAULT (getdate()) FOR fechaRegistro;
-ALTER TABLE Usuario    ADD DEFAULT (1) FOR estado;
 
 
 
