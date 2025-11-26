@@ -141,11 +141,7 @@ ALTER TABLE Pago       ADD FOREIGN KEY(idCita) REFERENCES Cita(id);
 ALTER TABLE Pago       ADD FOREIGN KEY(idConcepto) REFERENCES Concepto(id);
 ALTER TABLE Usuario    ADD FOREIGN KEY(idDoctor) REFERENCES Doctor(id);
 
---USUARIO prueba
-INSERT INTO Usuario(usuario, clave, idDoctor)
-VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
 
-GO
 
 
 
