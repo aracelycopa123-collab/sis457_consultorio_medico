@@ -7,7 +7,6 @@ enfocada en el bienestar de sus pacientes de todas las edades.
 
 El consultorio está dividido en áreas específicas para cada especialidad, contando con infraestructura moderna, equipos adecuados y personal capacitado. Las instalaciones son cómodas, 
 limpias y diseñadas para garantizar la seguridad y la privacidad de los pacientes.
-
 Áreas del Consultorio:
 
 1. Recepción y sala de espera:
