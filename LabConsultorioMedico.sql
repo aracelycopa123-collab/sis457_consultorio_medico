@@ -252,7 +252,6 @@ BEGIN
         END
         GO
 
-
         create PROC paHistorialClinicoListar
         AS
         BEGIN
