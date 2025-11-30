@@ -16,7 +16,6 @@ Espacio acogedor con sillas cómodas.
 Área de recepción donde se realiza la gestión de citas y atención administrativa.
 
 
-
 2. Consultorio de Cardiología:
 
 Equipado con electrocardiógrafo, tensiómetro digital, y estetoscopios especializados.
