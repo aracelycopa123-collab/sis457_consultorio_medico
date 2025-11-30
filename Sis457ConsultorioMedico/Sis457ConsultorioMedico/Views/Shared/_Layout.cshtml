@@ -12,7 +12,7 @@
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com" rel="preconnect">
 	<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
 	<!-- Vendor CSS Files -->
 	<link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -49,23 +49,28 @@
 
 			<div class="container position-relative d-flex align-items-center justify-content-between">
 				<a href="index.html" class="logo d-flex align-items-center me-auto">
-					<!-- Uncomment the line below if you also wish to use an image logo -->
-					<!-- <img src="~/img/logo.png" alt=""> -->
 					<h1 class="sitename">BADANI</h1>
 				</a>
 
 				<nav id="navmenu" class="navmenu">
+
+					@{
+						var controlador = ViewContext.RouteData.Values["controller"]?.ToString();
+					}
+
 					<ul>
-						<li><a asp-controller="Home" asp-action="Index" class="active">Inicio<br></a></li>
+						<li><a asp-controller="Home" asp-action="Index" class="@(controlador == "Home" ? "active" : "")">Inicio</a></li>
+
 						@if (User.Identity?.IsAuthenticated == true)
 						{
-							<li><a asp-controller="Pacientes" asp-action="Index">Pacientes</a></li>
-							<li><a asp-controller="Doctores" asp-action="Index">Doctores</a></li>
-							<li><a asp-controller="Especialidades" asp-action="Index">Especialidades</a></li>
-							<li><a asp-controller="Citas" asp-action="Index">Citas</a></li>
-							<li><a asp-controller="Pagos" asp-action="Index">Pagos</a></li>
-							<li><a asp-controller="Conceptos" asp-action="Index">Conceptos</a></li>
+							<li><a asp-controller="Pacientes" asp-action="Index" class="@(controlador == "Pacientes" ? "active" : "")">Pacientes</a></li>
+							<li><a asp-controller="Doctores" asp-action="Index" class="@(controlador == "Doctores" ? "active" : "")">Doctores</a></li>
+							<li><a asp-controller="Especialidades" asp-action="Index" class="@(controlador == "Especialidades" ? "active" : "")">Especialidades</a></li>
+							<li><a asp-controller="Citas" asp-action="Index" class="@(controlador == "Citas" ? "active" : "")">Citas</a></li>
+							<li><a asp-controller="Pagos" asp-action="Index" class="@(controlador == "Pagos" ? "active" : "")">Pagos</a></li>
+							<li><a asp-controller="Conceptos" asp-action="Index" class="@(controlador == "Conceptos" ? "active" : "")">Conceptos</a></li>
 						}
+
 						@if (User.Identity?.IsAuthenticated == false)
 						{
 							<li><a class="cta-btn d-none d-sm-block" asp-controller="Account" asp-action="Login">Iniciar Sesión</a></li>
@@ -105,7 +110,7 @@
 					<div class="social-links d-flex mt-4">
 						<a href=""><i class="bi bi-twitter-x"></i></a>
 						<a href=""><i class="bi bi-facebook"></i></a>
-						<a href=""><i class="bi bi-instagram"></i></a>
+						<a href=""><i class="bi bi-instagram"></i></a></li>
 						<a href=""><i class="bi bi-linkedin"></i></a>
 					</div>
 				</div>
@@ -159,12 +164,7 @@
 
 		<div class="container copyright text-center mt-4">
 			<p>© <span>Copyright</span> <strong class="px-1 sitename">BADANI</strong> <span>Todos los derechos reservados</span></p>
-			<div class="credits">
-				<!-- All the links in the footer should remain intact. -->
-				<!-- You can delete the links only if you've purchased the pro version. -->
-				<!-- Licensing information: https://bootstrapmade.com/license/ -->
-				<!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-			</div>
+			<div class="credits"></div>
 		</div>
 
 	</footer>

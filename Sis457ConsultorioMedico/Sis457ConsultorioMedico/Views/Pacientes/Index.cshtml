@@ -3,10 +3,8 @@
 @{
     ViewData["Title"] = "Pacientes";
 
-    // Verificar si todos son activos
     bool todosActivos = Model.All(x => x.Estado == 1);
 
-    // Función para calcular edad
     int CalcularEdad(DateTime? fecha)
     {
         if (fecha == null) return 0;
@@ -20,94 +18,154 @@
     }
 }
 
+<style>
+    /* Hace que TODAS las columnas estén alineadas */
+    .col-ci {
+        width: 120px;
+    }
+
+    .col-nombre {
+        width: 160px;
+    }
+
+    .col-app {
+        width: 160px;
+    }
+
+    .col-apm {
+        width: 160px;
+    }
+
+    .col-edad {
+        width: 90px;
+    }
+
+    .col-direccion {
+        width: 190px;
+    }
+
+    .col-celular {
+        width: 120px;
+    }
+
+    .col-estado {
+        width: 110px;
+    }
+
+    .col-acciones {
+        width: 190px;
+    }
+
+    .header-row {
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+    }
+
+    .data-row {
+        padding: 14px 0;
+    }
+
+    /* 🔥 ENCABEZADOS EN NEGRITA */
+    .header-row div {
+        color: #000 !important; /* Negro fuerte */
+        font-weight: 700 !important; /* Negrita */
+    }
+
+    /* 🔥 DATOS SIN NEGRITA Y CON ALTO CONTRASTE */
+    .data-row div {
+        color: #111 !important; /* Oscuro, muy legible */
+        font-weight: 400 !important; /* Normal (sin negrita) */
+    }
+</style>
+
 <div class="container mt-4">
 
+    <!-- TÍTULO Y REGISTRAR -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 fw-bold text-primary">Lista de Pacientes</h1>
+        <h1 class="h3 fw-bold text-primary m-0">Lista de Pacientes</h1>
+
         <a asp-action="Create" class="btn btn-success shadow-sm">
             <i class="bi bi-person-plus"></i> Registrar Nuevo
         </a>
     </div>
 
-    <div class="card shadow">
-        <div class="card-body">
-            <table class="table table-hover table-bordered align-middle">
-                <thead class="table-primary">
-                    <tr>
-                        <th>#</th>
-                        <th>C.I.</th>
-                        <th>Nombres</th>
-                        <th>Apellido Paterno</th>
-                        <th>Apellido Materno</th>
-                        <th>Fecha Nac.</th>
-                        <th>Edad</th>
-                        <th>Dirección</th>
-                        <th>Celular</th>
-                        <th>Usuario Registro</th>
-                        <th>Fecha Registro</th>
-
-                        @* Si NO todos son activos, mostrar Estado *@
-                        @if (!todosActivos)
-                        {
-                            <th>Estado</th>
-                        }
-
-                        <th style="width: 170px">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var p in Model)
-                    {
-                        <tr>
-                            <td>@p.Id</td>
-                            <td>@p.CedulaIdentidad</td>
-                            <td>@p.Nombres</td>
-                            <td>@p.PrimerApellido</td>
-                            <td>@p.SegundoApellido</td>
-
-                            <td>@(p.FechaNacimiento?.ToString("dd/MM/yyyy"))</td>
-
-                            <td><strong>@CalcularEdad(p.FechaNacimiento)</strong> años</td>
-
-                            <td>@p.Direccion</td>
-                            <td>@p.Celular</td>
-                            <td>@p.UsuarioRegistro</td>
-                            <td>@p.FechaRegistro.ToString("dd/MM/yyyy")</td>
-
-                            @if (!todosActivos)
-                            {
-                                <td>
-                                    @if (p.Estado == 1)
-                                    {
-                                        <span class="badge bg-success">Activo</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">Inactivo</span>
-                                    }
-                                </td>
-                            }
-
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-sm btn-outline-secondary">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="m-0">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('¿Eliminar este paciente?');">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+    <!-- BUSCADOR -->
+    <div class="d-flex justify-content-center mb-4">
+        <form asp-action="Index" method="get" class="d-flex w-50">
+            <input type="text" name="buscar" class="form-control me-2"
+                   placeholder="Buscar paciente por nombre, CI o apellido...">
+            <button class="btn btn-primary">Buscar</button>
+        </form>
     </div>
+
+    <!-- ENCABEZADOS -->
+    <div class="d-flex fw-bold text-uppercase small border-bottom header-row">
+
+        <div class="col-ci">C.I.</div>
+        <div class="col-nombre">Nombres</div>
+        <div class="col-app">Apellido Paterno</div>
+        <div class="col-apm">Apellido Materno</div>
+        <div class="col-edad">Edad</div>
+        <div class="col-direccion">Dirección</div>
+        <div class="col-celular">Celular</div>
+
+        @if (!todosActivos)
+        {
+            <div class="col-estado">Estado</div>
+        }
+
+        <div class="col-acciones text-end">Acciones</div>
+    </div>
+
+    <!-- LISTA DE PACIENTES -->
+    @foreach (var p in Model)
+    {
+        <div class="d-flex align-items-center border-bottom data-row">
+
+            <div class="col-ci">@p.CedulaIdentidad</div>
+
+            <div class="col-nombre">@p.Nombres</div>
+
+            <div class="col-app">@p.PrimerApellido</div>
+
+            <div class="col-apm">@p.SegundoApellido</div>
+
+            <div class="col-edad">@CalcularEdad(p.FechaNacimiento) años</div>
+
+            <div class="col-direccion">@p.Direccion</div>
+
+            <div class="col-celular">@p.Celular</div>
+
+            @if (!todosActivos)
+            {
+                <div class="col-estado">
+                    @if (p.Estado == 1)
+                    {
+                        <span class="badge bg-success">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Inactivo</span>
+                    }
+                </div>
+            }
+
+            <div class="col-acciones text-end">
+                <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-outline-secondary btn-sm me-1">
+                    <i class="bi bi-eye"></i>
+                </a>
+
+                <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-outline-primary btn-sm me-1">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+
+                <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                            onclick="return confirm('¿Eliminar este paciente?');">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
 </div>

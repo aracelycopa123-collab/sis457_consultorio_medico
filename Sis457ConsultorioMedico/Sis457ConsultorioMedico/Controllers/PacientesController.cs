@@ -22,9 +22,25 @@ namespace Sis457ConsultorioMedico.Controllers
         }
 
         // GET: Pacientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar)
         {
-            return View(await _context.Pacientes.Where(x => x.Estado != -1).ToListAsync());
+            var query = _context.Pacientes
+                        .Where(x => x.Estado != -1)
+                        .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(buscar))
+            {
+                buscar = buscar.Trim().ToLower();
+
+                query = query.Where(p =>
+                    p.CedulaIdentidad.Contains(buscar) ||
+                    p.Nombres.ToLower().Contains(buscar) ||
+                    p.PrimerApellido.ToLower().Contains(buscar) ||
+                    p.SegundoApellido.ToLower().Contains(buscar)
+                );
+            }
+
+            return View(await query.ToListAsync());
         }
 
         // GET: Pacientes/Details/5
@@ -52,8 +68,6 @@ namespace Sis457ConsultorioMedico.Controllers
         }
 
         // POST: Pacientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Paciente paciente)
@@ -61,6 +75,7 @@ namespace Sis457ConsultorioMedico.Controllers
             paciente.UsuarioRegistro = User.Identity.Name;
             paciente.FechaRegistro = DateTime.Now;
             paciente.Estado = 1;
+
             if (!string.IsNullOrWhiteSpace(paciente.CedulaIdentidad))
             {
                 bool ciExiste = await _context.Pacientes
@@ -106,8 +121,6 @@ namespace Sis457ConsultorioMedico.Controllers
         }
 
         // POST: Pacientes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CedulaIdentidad,Nombres,PrimerApellido,SegundoApellido,FechaNacimiento,Direccion,Celular,UsuarioRegistro,FechaRegistro,Estado")] Paciente paciente)
@@ -120,7 +133,7 @@ namespace Sis457ConsultorioMedico.Controllers
             {
                 bool ciExisteParaOtroPaciente = await _context.Pacientes
                                                     .AnyAsync(x => x.CedulaIdentidad == paciente.CedulaIdentidad && x.Id != paciente.Id);
-            
+
                 if (ciExisteParaOtroPaciente)
                 {
                     ModelState.AddModelError("CedulaIdentidad", "Ya existe otro paciente registrado con esta Cédula de Identidad.");
@@ -217,6 +230,5 @@ namespace Sis457ConsultorioMedico.Controllers
 
             return Json(paciente);
         }
-
     }
 }

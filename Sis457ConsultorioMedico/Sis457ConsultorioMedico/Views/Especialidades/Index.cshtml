@@ -1,52 +1,100 @@
 ﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Especialidad>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Especialidades";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2 class="text-primary mb-3">Lista de Especialidades</h2>
+
+<style>
+    .tabla-especialidades {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+        margin-top: 20px;
+    }
+
+        .tabla-especialidades th {
+            background: #2c7be5;
+            color: white;
+            text-align: center;
+        }
+
+        .tabla-especialidades td {
+            vertical-align: middle;
+            padding: 12px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+    /* BOTONES BLANCOS CON BORDE AZUL */
+    .btn-accion {
+        padding: 6px 14px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 0 6px;
+        background-color: #ffffff !important;
+        border: 2px solid #2c7be5;
+        color: #2c7be5 !important;
+        transition: 0.2s;
+    }
+
+        .btn-accion:hover {
+            background-color: #e6f0ff !important;
+            border-color: #1e63c3;
+            color: #1e63c3 !important;
+        }
+
+    /* BOTÓN AGREGAR ESTILO BLANCO TAMBIÉN */
+    .btn-agregar {
+        background-color: #ffffff;
+        border: 2px solid #2c7be5;
+        color: #2c7be5;
+        padding: 10px 18px;
+        font-weight: 700;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+        .btn-agregar:hover {
+            background-color: #e6f0ff;
+            border-color: #1e63c3;
+            color: #1e63c3;
+        }
+</style>
+
 <p>
-    <a asp-action="Create">Agregar</a>
+    <a asp-action="Create" class="btn-agregar">+ Agregar Especialidad</a>
 </p>
-<table class="table">
+
+<table class="table tabla-especialidades">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th></th>
+            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+            <th>@Html.DisplayNameFor(model => model.UsuarioRegistro)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaRegistro)</th>
+            <th>@Html.DisplayNameFor(model => model.Estado)</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRegistro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.UsuarioRegistro)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaRegistro)</td>
+                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-accion">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-accion">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-accion">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
