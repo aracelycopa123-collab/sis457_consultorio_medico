@@ -1,8 +1,8 @@
 # sis457_consultorio_medico
 
-1. Descripción del Consultorio Médico
+1. Descripción del Consultorio Médico BADANI
 
-El consultorio médico es un espacio de atención integral de salud que ofrece servicios especializados en cardiología y odontología. Su objetivo es brindar una atención médica de calidad, personalizada y oportuna,
+El consultorio médico es un espacio de atención integral de salud que ofrece servicios especializados en cardiología y dermatologia. Su objetivo es brindar una atención médica de calidad, personalizada y oportuna,
 enfocada en el bienestar de sus pacientes de todas las edades.
 
 El consultorio está dividido en áreas específicas para cada especialidad, contando con infraestructura moderna, equipos adecuados y personal capacitado. Las instalaciones son cómodas, 
