@@ -1,19 +1,21 @@
--- Crear BD
-CREATE DATABASE FinalConsultorioMedico;
+﻿CREATE DATABASE FinalConsultorioMedico;
+GO
+USE [master]
+GO
+CREATE LOGIN [usrfinalconsultoriomedico] WITH PASSWORD = N'123456',
+	DEFAULT_DATABASE = [FinalConsultorioMedico],
+	CHECK_EXPIRATION = OFF,
+	CHECK_POLICY = ON
+GO
+USE [FinalConsultorioMedico]
+GO
+CREATE USER [usrfinalconsultoriomedico] FOR LOGIN [usrfinalconsultoriomedico]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [usrfinalconsultoriomedico]
 GO
 
--- Usar BD
-USE FinalConsultorioMedico;
-GO
-
--- Crear usuario 
-CREATE USER usrfinalconsultoriomedico FOR LOGIN usrfinalconsultoriomedico;
-GO
-
--- Dar permisos db_owner
-ALTER ROLE db_owner ADD MEMBER usrfinalconsultoriomedico;
-GO
-    
+DROP LOGIN usrfinalconsultoriomedico;
+Drop user usrfinalconsultoriomedico;
 /* TABLAS*/
 
 CREATE TABLE Especialidad(
@@ -142,6 +144,7 @@ ALTER TABLE Usuario    ADD FOREIGN KEY(idDoctor) REFERENCES Doctor(id);
 INSERT INTO Usuario(usuario, clave, idDoctor)
 VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
 GO
+
 
 
 
