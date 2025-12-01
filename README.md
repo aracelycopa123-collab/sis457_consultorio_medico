@@ -28,6 +28,7 @@ Atención dirigida por un cardiólogo certificado.
 
 3. Consultorio de Odontología:
 
+
 Cuenta con silla odontológica ergonómica, lámpara de alta intensidad, unidad de rayos X intraoral y herramientas de diagnóstico dental.
 
 Se ofrecen limpiezas, tratamientos de caries, extracciones, ortodoncia básica y asesoría en salud bucal.
