@@ -1,71 +1,76 @@
 ﻿@model Sis457ConsultorioMedico.Models.Cita
 
 @{
-	ViewData["Title"] = "Borrar Cita";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Borrar Cita";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @if (TempData["Error"] != null)
 {
-	<div class="alert alert-danger">
-		@TempData["Error"]
-	</div>
+    <div class="alert alert-danger shadow-sm rounded">
+        @TempData["Error"]
+    </div>
 }
 
 <div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Eliminar Cita</h2>
-		<h3>¿Esta seguro que desea eliminar la Cita?</h3>
-	</div>
+    <!-- Título con fondo celeste y borde redondeado -->
+    <div class="container section-title p-3 mb-4 rounded" style="background-color: #5bc0de; color: white;">
+        <h2 class="mb-1">Eliminar Cita</h2>
+        <h5 class="mb-0">¿Está seguro que desea eliminar esta cita?</h5>
+    </div>
 
-	<div>
-		<dl class="row">
-			<dt class="col-sm-2">Fecha</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.Fecha)
-			</dd>
-			<dt class="col-sm-2">Hora</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.Hora)
-			</dd>
-			<dt class="col-sm-2">Paciente</dt>
-			<dd class="col-sm-10">
-				@(Model.IdPacienteNavigation.Nombres + " " + Model.IdPacienteNavigation.PrimerApellido + " " + Model.IdPacienteNavigation.SegundoApellido)
-			</dd>
-			<dt class="col-sm-2">Doctor
-			<dd class="col-sm-10">
-					@(Model.IdDoctorNavigation.Nombres + " " + Model.IdDoctorNavigation.PrimerApellido + " " + Model.IdDoctorNavigation.SegundoApellido)
-			</dd>
-			<dt class="col-sm-2">Especialidad</dt>
-			<dd class="col-sm-10">
-					@Model.IdEspecialidadNavigation.Nombre
-			</dd>
-			<dt class="col-sm-2">Pagado</dt>
-			<dd class="col-sm-10">
-					@(Model.Pagos != null && Model.Pagos.Any() ? "Sí" : "No")
-			</dd>
-			<dt class="col-sm-2">Fecha de Pago</dt>
-			<dd class="col-sm-10">
-					@(Model.Pagos.FirstOrDefault()?.Fecha.ToString("dd/MM/yyyy") ?? "--")
-			</dd>
-			<dt class="col-sm-2">Usuario Registro</dt>
-			<dd class="col-sm-10">
-					@Html.DisplayFor(model => model.UsuarioRegistro)
-			</dd>
-			<dt class="col-sm-2">Fecha Registro</dt>
-			<dd class="col-sm-10">
-					@Html.DisplayFor(model => model.FechaRegistro)
-			</dd>
-			<dt class="col-sm-2">Estado</dt>
-			<dd class="col-sm-10">
-					@(Model.Estado == 1 ? "Activo" : "Inactivo")
-			</dd>
-		</dl>
+    <!-- Tarjeta con sombra para mostrar detalles -->
+    <div class="card shadow-sm rounded mb-4">
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-4 fw-bold">Fecha</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Fecha)</dd>
 
-		<form asp-action="Delete">
-			<input type="hidden" asp-for="Id" />
-			<button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Eliminar</button> |
-			<a asp-action="Index"><i class="fa-solid fa-arrow-left"></i>Volver a la Lista</a>
-		</form>
-	</div>
+                <dt class="col-sm-4 fw-bold">Hora</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Hora)</dd>
+
+                <dt class="col-sm-4 fw-bold">Paciente</dt>
+                <dd class="col-sm-8">
+                    @(Model.IdPacienteNavigation.Nombres + " " + Model.IdPacienteNavigation.PrimerApellido + " " + Model.IdPacienteNavigation.SegundoApellido)
+                </dd>
+
+                <dt class="col-sm-4 fw-bold">Doctor</dt>
+                <dd class="col-sm-8">
+                    @(Model.IdDoctorNavigation.Nombres + " " + Model.IdDoctorNavigation.PrimerApellido + " " + Model.IdDoctorNavigation.SegundoApellido)
+                </dd>
+
+                <dt class="col-sm-4 fw-bold">Especialidad</dt>
+                <dd class="col-sm-8">@Model.IdEspecialidadNavigation.Nombre</dd>
+
+                <dt class="col-sm-4 fw-bold">Pagado</dt>
+                <dd class="col-sm-8">@((Model.Pagos != null && Model.Pagos.Any()) ? "Sí" : "No")</dd>
+
+                <dt class="col-sm-4 fw-bold">Fecha de Pago</dt>
+                <dd class="col-sm-8">@Model.Pagos.FirstOrDefault()?.Fecha.ToString("dd/MM/yyyy") ?? "--"</dd>
+
+                <dt class="col-sm-4 fw-bold">Usuario Registro</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.UsuarioRegistro)</dd>
+
+                <dt class="col-sm-4 fw-bold">Fecha Registro</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.FechaRegistro)</dd>
+
+                <dt class="col-sm-4 fw-bold">Estado</dt>
+                <dd class="col-sm-8">@(Model.Estado == 1 ? "Activo" : "Inactivo")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Botones con mejor estilo y separación -->
+    <div class="d-flex justify-content-between">
+        <form asp-action="Delete" class="mb-0">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger shadow-sm">
+                <i class="fa-solid fa-trash-can"></i> Eliminar
+            </button>
+        </form>
+
+        <a asp-action="Index" class="btn btn-secondary shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Volver a la Lista
+        </a>
+    </div>
 </div>

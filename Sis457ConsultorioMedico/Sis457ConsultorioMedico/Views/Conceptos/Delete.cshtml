@@ -1,58 +1,39 @@
 ﻿@model Sis457ConsultorioMedico.Models.Concepto
 
 @{
-    ViewData["Title"] = "Borrar";
+    ViewData["Title"] = "Borrar Concepto";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Borrar</h1>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="text-center p-5 shadow rounded" style="max-width: 500px; background-color: #fff;">
+        <h2 class="text-danger mb-3"><i class="fa-solid fa-triangle-exclamation"></i> ¡Atención!</h2>
+        <p class="mb-4">Estás a punto de eliminar el concepto <strong>@Model.Descripcion</strong>.</p>
+        <p class="text-muted">Esta acción no se puede deshacer.</p>
 
-<h3>Deseas borrar el concepto?</h3>
-<div>
-    <h4>Concepto</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Costo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Costo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioRegistro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdEspecialidadNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdEspecialidadNavigation.Id)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">volver a la lista</a>
-    </form>
+        <div class="text-start mb-4">
+            <dl class="row">
+                <dt class="col-sm-5">Especialidad</dt>
+                <dd class="col-sm-7">@Model.IdEspecialidadNavigation?.Nombre ?? "--"</dd>
+
+                <dt class="col-sm-5">Costo</dt>
+                <dd class="col-sm-7">@Model.Costo.ToString("C")</dd>
+
+                <dt class="col-sm-5">Estado</dt>
+                <dd class="col-sm-7">@(Model.Estado == 1 ? "Activo" : "Inactivo")</dd>
+            </dl>
+        </div>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary w-45">
+                    <i class="fa-solid fa-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger w-45">
+                    <i class="fa-solid fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

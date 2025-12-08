@@ -2,99 +2,98 @@
 
 @{
     ViewData["Title"] = "Especialidades";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-primary mb-3">Lista de Especialidades</h2>
-
 <style>
-    .tabla-especialidades {
-        background: #ffffff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
-        margin-top: 20px;
+    .list-container {
+        background: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.08);
     }
 
-        .tabla-especialidades th {
-            background: #2c7be5;
-            color: white;
-            text-align: center;
-        }
-
-        .tabla-especialidades td {
-            vertical-align: middle;
-            padding: 12px;
-            text-align: center;
-            font-size: 15px;
-        }
-
-    /* BOTONES BLANCOS CON BORDE AZUL */
-    .btn-accion {
-        padding: 6px 14px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 600;
-        margin: 0 6px;
-        background-color: #ffffff !important;
-        border: 2px solid #2c7be5;
-        color: #2c7be5 !important;
-        transition: 0.2s;
-    }
-
-        .btn-accion:hover {
-            background-color: #e6f0ff !important;
-            border-color: #1e63c3;
-            color: #1e63c3 !important;
-        }
-
-    /* BOTÓN AGREGAR ESTILO BLANCO TAMBIÉN */
-    .btn-agregar {
-        background-color: #ffffff;
-        border: 2px solid #2c7be5;
-        color: #2c7be5;
-        padding: 10px 18px;
+    .header-row div {
         font-weight: 700;
-        border-radius: 8px;
-        text-decoration: none;
+        color: #2c3e50;
+    }
+
+    .data-row:hover {
+        background: #f6f8fa;
         transition: 0.2s;
     }
 
-        .btn-agregar:hover {
-            background-color: #e6f0ff;
-            border-color: #1e63c3;
-            color: #1e63c3;
-        }
+    /* Columnas compactas */
+    .col-nombre {
+        flex: 0 0 280px;
+    }
+
+    .col-estado {
+        flex: 0 0 120px;
+    }
+
+    .col-acciones {
+        flex: 0 0 240px;
+        text-align: end;
+    }
+
+    .header-row, .data-row {
+        display: flex;
+        align-items: center;
+    }
 </style>
 
-<p>
-    <a asp-action="Create" class="btn-agregar">+ Agregar Especialidad</a>
-</p>
+<div class="container mt-4">
 
-<table class="table tabla-especialidades">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-            <th>@Html.DisplayNameFor(model => model.UsuarioRegistro)</th>
-            <th>@Html.DisplayNameFor(model => model.FechaRegistro)</th>
-            <th>@Html.DisplayNameFor(model => model.Estado)</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
+    <!-- Título y botón -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 fw-bold text-primary m-0">Especialidades</h1>
+
+        <a asp-action="Create" class="btn btn-success shadow-sm px-3">
+            <i class="bi bi-plus-circle"></i> Registrar
+        </a>
+    </div>
+
+    <div class="list-container">
+
+        <!-- Encabezados -->
+        <div class="header-row border-bottom pb-2 mb-2 text-uppercase small">
+            <div class="col-nombre">Nombre</div>
+            <div class="col-estado">Estado</div>
+            <div class="col-acciones">Acciones</div>
+        </div>
+
+        <!-- Lista -->
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                <td>@Html.DisplayFor(modelItem => item.UsuarioRegistro)</td>
-                <td>@Html.DisplayFor(modelItem => item.FechaRegistro)</td>
-                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-accion">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-accion">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-accion">Eliminar</a>
-                </td>
-            </tr>
+            <div class="data-row border-bottom py-3">
+
+                <div class="col-nombre">@item.Nombre</div>
+
+                <div class="col-estado">
+                    <span class="badge @(item.Estado == 1 ? "bg-success" : "bg-danger")">
+                        @(item.Estado == 1 ? "Activo" : "Inactivo")
+                    </span>
+                </div>
+
+                <div class="col-acciones">
+
+                    <a asp-action="Details" asp-route-id="@item.Id"
+                       class="btn btn-outline-secondary btn-sm me-1">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id"
+                       class="btn btn-outline-primary btn-sm me-1">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@item.Id"
+                       class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

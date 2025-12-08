@@ -2,78 +2,85 @@
 
 @{
     ViewData["Title"] = "Conceptos";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Conceptos</h1>
+<style>
+    /* --- CONFIGURACIÓN GLOBAL PARA LISTAS --- */
+    .list-container {
+        background: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
-</p>
+    .header-row div {
+        font-weight: 700;
+        color: #2c3e50;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Costo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaRegistro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEspecialidadNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
+    .data-row:hover {
+        background: #f6f8fa;
+        transition: 0.2s;
+    }
 
-    <tbody>
+    .col-descripcion {
+        width: 250px;
+    }
+
+    .col-costo {
+        width: 120px;
+    }
+
+    .col-especialidad {
+        width: 180px;
+    }
+
+    .col-acciones {
+        width: 180px;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- TÍTULO + BOTÓN CREAR -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 fw-bold text-primary m-0">Conceptos</h1>
+        <a asp-action="Create" class="btn btn-success shadow-sm px-3">
+            <i class="bi bi-plus-circle"></i> Crear
+        </a>
+    </div>
+
+    <div class="list-container">
+
+        <!-- ENCABEZADOS -->
+        <div class="d-flex border-bottom pb-2 mb-2 header-row text-uppercase small">
+            <div class="col-descripcion">Descripción</div>
+            <div class="col-costo">Costo</div>
+            <div class="col-especialidad">Especialidad</div>
+            <div class="col-acciones text-end">Acciones</div>
+        </div>
+
+        <!-- LISTADO -->
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Costo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdEspecialidadNavigation.Id)
-                </td>
-                <td>
-
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm me-1">
-                        Editar
-                    </a>
-
+            <div class="d-flex align-items-center border-bottom py-3 data-row">
+                <div class="col-descripcion">@item.Descripcion</div>
+                <div class="col-costo">@item.Costo.ToString("C")</div>
+                <div class="col-especialidad">
+                    @item.IdEspecialidadNavigation.Nombre
+                </div>
+                <div class="col-acciones text-end">
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm me-1">
-                        Detalles
+                        <i class="bi bi-eye"></i>
                     </a>
-
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm me-1">
+                        <i class="bi bi-pencil"></i>
+                    </a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">
-                        Eliminar
+                        <i class="bi bi-trash"></i>
                     </a>
-
-                </td>
-            </tr>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

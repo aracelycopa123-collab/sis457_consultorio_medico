@@ -1,196 +1,280 @@
 ﻿@model Sis457ConsultorioMedico.Models.Cita
 
 @{
-	ViewData["Title"] = "Agendar Cita";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Agendar Cita";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var horasFijas = new[] { "09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00" };
 }
 
 <div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Agendar Cita</h2>
-	</div>
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Agendar Cita</h2>
+    </div>
 
-	<div class="row justify-content-center">
-		<div class="col-lg-8">
-			<div class="card shadow-sm">
-				<div class="card-body">
-					<form asp-action="Create" method="post" novalidate>
-						@Html.AntiForgeryToken()
-						<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Create" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-						<div class="row g-3">
-							<div class="col-md-6">
-								<label for="ciPaciente" class="form-label">CI del Paciente</label>
-								<div class="input-group">
-									<input type="text" id="ciPaciente" class="form-control" placeholder="Buscar por cédula" />
-									<button type="button" class="btn btn-outline-secondary" id="btnBuscarPaciente" title="Buscar paciente">
-										<i class="fa-solid fa-magnifying-glass"></i>
-									</button>
-								</div>
-							</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="ciPaciente" class="form-label">CI del Paciente</label>
+                                <div class="input-group">
+                                    <input type="text" id="ciPaciente" class="form-control" placeholder="Buscar por cédula" />
+                                    <button type="button" class="btn btn-outline-secondary" id="btnBuscarPaciente" title="Buscar paciente">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                            </div>
 
-							<div class="col-md-6">
-								<label class="form-label">Paciente</label>
-								<input asp-for="IdPaciente" type="hidden" />
-								<div class="input-group">
-									<span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-									<input type="text" id="nombrePaciente" class="form-control" placeholder="Nombre del paciente" readonly value="@ViewBag.NombrePaciente" />
-								</div>
-								<span asp-validation-for="IdPaciente" class="text-danger"></span>
-							</div>
+                            <div class="col-md-6">
+                                <label class="form-label">Paciente</label>
+                                <input asp-for="IdPaciente" type="hidden" />
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                                    <input type="text" id="nombrePaciente" class="form-control" placeholder="Nombre del paciente" readonly value="@ViewBag.NombrePaciente" />
+                                </div>
+                                <span asp-validation-for="IdPaciente" class="text-danger"></span>
+                            </div>
 
-							<div class="col-md-6">
-								<label asp-for="IdEspecialidad" class="form-label">Especialidad</label>
-								<select id="especialidadSelect" class="form-select" name="IdEspecialidad" asp-for="IdEspecialidad">
-									<option disabled selected value="0">Seleccione una especialidad</option>
-									@foreach (var especialidad in ViewBag.Especialidades as List<Sis457ConsultorioMedico.Models.Especialidad>)
-									{
-										<option value="@especialidad.Id">@especialidad.Nombre</option>
-									}
-								</select>
-								<span asp-validation-for="IdEspecialidad" class="text-danger"></span>
-							</div>
+                            <div class="col-md-6">
+                                <label asp-for="IdEspecialidad" class="form-label">Especialidad</label>
+                                <select id="especialidadSelect" class="form-select" name="IdEspecialidad" asp-for="IdEspecialidad">
+                                    <option disabled selected value="0">Seleccione una especialidad</option>
+                                    @foreach (var especialidad in ViewBag.Especialidades as List<Sis457ConsultorioMedico.Models.Especialidad>)
+                                    {
+                                        <option value="@especialidad.Id">@especialidad.Nombre</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="IdEspecialidad" class="text-danger"></span>
+                            </div>
 
-							<div class="col-md-6">
-								<label asp-for="IdDoctor" class="form-label">Doctor</label>
-								<select asp-for="IdDoctor" class="form-select" id="doctorSelect">
-									<option disabled selected value="0">Seleccione un doctor</option>
-								</select>
-								<span asp-validation-for="IdDoctor" class="text-danger"></span>
-							</div>
+                            <div class="col-md-6">
+                                <label asp-for="IdDoctor" class="form-label">Doctor</label>
+                                <select asp-for="IdDoctor" class="form-select" id="doctorSelect" name="IdDoctor">
+                                    <option disabled selected value="0">Seleccione un doctor</option>
+                                </select>
+                                <span asp-validation-for="IdDoctor" class="text-danger"></span>
+                            </div>
 
-							<div class="col-md-6">
-								<label asp-for="Fecha" class="form-label">Fecha</label>
-								<input asp-for="Fecha" class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-								<span asp-validation-for="Fecha" class="text-danger"></span>
-							</div>
+                            <div class="col-md-6">
+                                <label asp-for="Fecha" class="form-label">Fecha</label>
+                                <input asp-for="Fecha" id="fechaInput" class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="Fecha" class="text-danger"></span>
+                            </div>
 
-							<div class="col-md-6">
-								<label asp-for="Hora" class="form-label">Hora</label>
-								<select asp-for="Hora" class="form-select">
-									<option disabled selected value="">Seleccione una hora</option>
-									<option value="09:00">09:00</option>
-									<option value="09:30">09:30</option>
-									<option value="10:00">10:00</option>
-									<option value="10:30">10:30</option>
-									<option value="11:00">11:00</option>
-									<option value="11:30">11:30</option>
-									<option value="12:00">12:00</option>
-									<option value="12:30">12:30</option>
-									<option value="13:00">13:00</option>
-									<option value="13:30">13:30</option>
-									<option value="14:00">14:00</option>
-									<option value="14:30">14:30</option>
-									<option value="15:00">15:00</option>
-									<option value="15:30">15:30</option>
-									<option value="16:00">16:00</option>
-									<option value="16:30">16:30</option>
-									<option value="17:00">17:00</option>
-								</select>
-								<span asp-validation-for="Hora" class="text-danger"></span>
-							</div>
-						</div>
+                            <div class="col-md-6">
+                                <label class="form-label">Hora</label>
+                                <!-- campo hidden para binding -->
+                                <input asp-for="Hora" type="hidden" id="HoraHidden" name="Hora" />
+                                <!-- contenedor de botones de hora -->
+                                <div id="horasContainer" class="d-flex flex-wrap gap-2">
+                                    @foreach (var h in horasFijas)
+                                    {
+                                        <button type="button" class="btn btn-outline-secondary btn-hour" data-time="@h">@h</button>
+                                    }
+                                </div>
+                                <span asp-validation-for="Hora" class="text-danger d-block"></span>
+                            </div>
+                        </div>
 
-						<div class="mt-4 d-flex justify-content-between align-items-center">
-							<a asp-action="Index" class="btn btn-secondary">
-								<i class="fa-solid fa-arrow-left"></i> Volver a la lista
-							</a>
-							<button type="submit" class="btn btn-primary">
-								<i class="fa-solid fa-calendar-plus"></i> Agendar Cita
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+                            </a>
+                            <button type="submit" class="btn btn-primary" id="btnSubmit">
+                                <i class="fa-solid fa-calendar-plus"></i> Agendar Cita
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-	<script>
-		// Buscar paciente por CI al presionar el botón o al salir del campo
-		async function buscarPacientePorCI(ci) {
-			if (!ci) return;
-			try {
-				const res = await fetch(`/Pacientes/BuscarPorCI?ci=${encodeURIComponent(ci)}`);
-				const data = await res.json();
-				if (data && data.nombreCompleto) {
-					document.getElementById('nombrePaciente').value = data.nombreCompleto;
-					document.querySelector('input[name="IdPaciente"]').value = data.id;
-				} else {
-					document.getElementById('nombrePaciente').value = "No existe el Paciente";
-					document.querySelector('input[name="IdPaciente"]').value = "";
-				}
-			} catch (err) {
-				console.error(err);
-			}
-		}
+    <style>
+        /* estilos para las horas */
+        .btn-hour { min-width: 80px; }
 
-		document.getElementById('btnBuscarPaciente').addEventListener('click', function () {
-			const ci = document.getElementById('ciPaciente').value.trim();
-			buscarPacientePorCI(ci);
-		});
+        /* selección activa: verde */
+        .btn-hour.selected {
+            box-shadow: 0 0 0 0.2rem rgba(25,135,84,.25);
+            border-color: #198754;
+            background-color: #198754;
+            color: #fff;
+        }
 
-		document.getElementById('ciPaciente').addEventListener('blur', function () {
-			const ci = this.value.trim();
-			if (ci) buscarPacientePorCI(ci);
-		});
+        /* ocupada: gris plomo, no seleccionable */
+        .btn-hour.ocupada {
+            pointer-events: none;
+            opacity: 0.8;
+            background-color: #6c757d !important; /* plomo */
+            border-color: #6c757d !important;
+            color: #fff !important;
+        }
 
-		// Cargar doctores según especialidad
-		document.getElementById("especialidadSelect").addEventListener("change", function () {
-			const especialidadId = this.value;
-			const doctorSelect = document.getElementById("doctorSelect");
-			doctorSelect.innerHTML = '<option disabled selected value="">Cargando...</option>';
+        /* deshabilitada por falta de doctor/fecha */
+        .btn-hour.disabled-by-doctor {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
 
-			fetch(`/Citas/ObtenerDoctoresPorEspecialidad?idEspecialidad=${especialidadId}`)
-				.then(response => response.json())
-				.then(data => {
-					doctorSelect.innerHTML = '<option disabled selected value="">Seleccione un doctor</option>';
-					if (data.length > 0) {
-						data.forEach(doctor => {
-							const option = document.createElement("option");
-							option.value = doctor.id;
-							option.text = doctor.nombreCompleto;
-							doctorSelect.appendChild(option);
-						});
-					} else {
-						const option = document.createElement("option");
-						option.disabled = true;
-						option.text = "No hay doctores disponibles";
-						doctorSelect.appendChild(option);
-					}
-				});
-		});
+    <script>
+        async function buscarPacientePorCI(ci) {
+            if (!ci) return;
+            try {
+                const res = await fetch(`/Pacientes/BuscarPorCI?ci=${encodeURIComponent(ci)}`);
+                const data = await res.json();
+                if (data && data.nombreCompleto) {
+                    document.getElementById('nombrePaciente').value = data.nombreCompleto;
+                    document.querySelector('input[name="IdPaciente"]').value = data.id;
+                } else {
+                    document.getElementById('nombrePaciente').value = "No existe el Paciente";
+                    document.querySelector('input[name="IdPaciente"]').value = "";
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
 
-		// Inicializar si ya hay especialidad seleccionada (caso edición)
-		window.addEventListener('DOMContentLoaded', function () {
-			const especialidadId = document.getElementById("especialidadSelect")?.value;
-			const doctorIdActual = '@(Model?.IdDoctor ?? 0)';
-			if (especialidadId && especialidadId !== "0") {
-				const doctorSelect = document.getElementById("doctorSelect");
-				doctorSelect.innerHTML = '<option disabled selected value="">Cargando...</option>';
-				fetch(`/Citas/ObtenerDoctoresPorEspecialidad?idEspecialidad=${especialidadId}`)
-					.then(response => response.json())
-					.then(data => {
-						doctorSelect.innerHTML = '<option disabled selected value="">Seleccione un doctor</option>';
-						if (data.length > 0) {
-							data.forEach(doctor => {
-								const option = document.createElement("option");
-								option.value = doctor.id;
-								option.text = doctor.nombreCompleto;
-								if (doctor.id == doctorIdActual) option.selected = true;
-								doctorSelect.appendChild(option);
-							});
-						} else {
-							const option = document.createElement("option");
-							option.disabled = true;
-							option.text = "No hay doctores disponibles";
-							doctorSelect.appendChild(option);
-						}
-					});
-			}
-		});
-	</script>
+        document.getElementById('btnBuscarPaciente').addEventListener('click', function () {
+            const ci = document.getElementById('ciPaciente').value.trim();
+            buscarPacientePorCI(ci);
+        });
+        document.getElementById('ciPaciente').addEventListener('blur', function () {
+            const ci = this.value.trim();
+            if (ci) buscarPacientePorCI(ci);
+        });
+
+        // población de doctores según especialidad
+        document.getElementById("especialidadSelect").addEventListener("change", function () {
+            const especialidadId = this.value;
+            const doctorSelect = document.getElementById("doctorSelect");
+            doctorSelect.innerHTML = '<option disabled selected value="">Cargando...</option>';
+
+            fetch(`/Citas/ObtenerDoctoresPorEspecialidad?idEspecialidad=${especialidadId}`)
+                .then(response => response.json())
+                .then(data => {
+                    doctorSelect.innerHTML = '<option disabled selected value="">Seleccione un doctor</option>';
+                    data.forEach(doctor => {
+                        const option = document.createElement("option");
+                        option.value = doctor.id;
+                        option.text = doctor.nombreCompleto;
+                        doctorSelect.appendChild(option);
+                    });
+                })
+                .finally(() => actualizarHorasOcupadas());
+        });
+
+        // click sobre botones de hora
+        document.getElementById('horasContainer').addEventListener('click', function (e) {
+            const btn = e.target.closest('.btn-hour');
+            if (!btn) return;
+            if (btn.classList.contains('ocupada') || btn.classList.contains('disabled-by-doctor')) return; // no seleccionar
+            // desmarcar otras
+            document.querySelectorAll('.btn-hour.selected').forEach(x => x.classList.remove('selected'));
+            // marcar esta (verde)
+            btn.classList.add('selected');
+            // set hidden input (TimeOnly binder acepta "HH:mm")
+            document.getElementById('HoraHidden').value = btn.dataset.time;
+        });
+
+        // actualizar horas ocupadas según fecha/doctor
+        document.getElementById("doctorSelect").addEventListener("change", actualizarHorasOcupadas);
+        document.getElementById("fechaInput").addEventListener("change", actualizarHorasOcupadas);
+
+        function disableHorasForNoDoctor() {
+            const container = document.getElementById("horasContainer");
+            const botones = container.querySelectorAll('.btn-hour');
+            botones.forEach(b => {
+                b.classList.remove('ocupada','selected');
+                b.classList.remove('btn-danger','btn-success','btn-primary');
+                b.classList.add('disabled-by-doctor','btn-outline-secondary');
+                if (b.dataset.original) b.textContent = b.dataset.original;
+                else b.dataset.original = b.textContent;
+            });
+            document.getElementById('HoraHidden').value = "";
+        }
+
+        async function actualizarHorasOcupadas() {
+            const doctorId = document.getElementById("doctorSelect").value;
+            const fecha = document.getElementById("fechaInput").value;
+            const container = document.getElementById("horasContainer");
+            const botones = container.querySelectorAll('.btn-hour');
+
+            // reset visual
+            botones.forEach(b => {
+                b.classList.remove('ocupada','btn-danger','btn-outline-secondary','btn-primary','selected','disabled-by-doctor','btn-success');
+                b.classList.add('btn-outline-secondary');
+                if (b.dataset.original) b.textContent = b.dataset.original;
+                else b.dataset.original = b.textContent;
+            });
+            document.getElementById('HoraHidden').value = "";
+
+            // Si no hay doctor seleccionado -> no consultamos disponibilidad (comportamiento por-doctor)
+            if (!doctorId || doctorId === "0") {
+                disableHorasForNoDoctor();
+                return;
+            }
+
+            // Si no hay fecha -> pedir fecha
+            if (!fecha) {
+                disableHorasForNoDoctor();
+                return;
+            }
+
+            let url = `/Citas/ObtenerHorasOcupadas?fecha=${encodeURIComponent(fecha)}&idDoctor=${encodeURIComponent(doctorId)}`;
+
+            try {
+                const res = await fetch(url);
+                const ocupadas = await res.json(); // ["09:00","09:30"]
+                botones.forEach(b => {
+                    const t = b.dataset.time;
+                    if (ocupadas.includes(t)) {
+                        // si estaba seleccionada, deseleccionar
+                        if (b.classList.contains('selected')) {
+                            b.classList.remove('selected');
+                            document.getElementById('HoraHidden').value = "";
+                        }
+                        b.classList.remove('btn-outline-secondary');
+                        b.classList.add('ocupada');
+                        // aplicar estilo plomo
+                        b.textContent = (b.dataset.original || t) + " (Ocupada)";
+                    } else {
+                        // disponible: asegurar que sea clickable y verde si seleccionado
+                        b.classList.remove('ocupada','disabled-by-doctor');
+                        if (b.classList.contains('selected')) {
+                            b.classList.add('btn-success');
+                        } else {
+                            b.classList.remove('btn-success');
+                        }
+                        if (b.dataset.original) b.textContent = b.dataset.original;
+                    }
+                });
+            } catch (err) {
+                console.error("Error al obtener horas ocupadas:", err);
+                disableHorasForNoDoctor();
+            }
+        }
+
+        // inicializar
+        window.addEventListener('DOMContentLoaded', function () {
+            // aseguramos dataset.original
+            document.querySelectorAll('#horasContainer .btn-hour').forEach(b => {
+                if (!b.dataset.original) b.dataset.original = b.textContent.trim();
+            });
+            // por defecto exigir doctor
+            disableHorasForNoDoctor();
+        });
+    </script>
 }

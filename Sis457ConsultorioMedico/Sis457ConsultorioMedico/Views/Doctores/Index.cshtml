@@ -1,80 +1,131 @@
 ﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Doctor>
 
 @{
-	ViewData["Title"] = "Doctores";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Doctores";
 }
 
+<style>
+    .list-container {
+        background: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    }
 
-<div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Doctores</h2>
-	</div>
-	<p>
-		<a asp-action="Create"><i class="fa-solid fa-user-plus"></i> Registrar Nuevo</a>
-	</p>
-	<table class="table small">
-		<thead>
-			<tr>
-				<th>Cédula de Identidad</th>
-				<th>Nombres</th>
-				<th>Apellido Paterno</th>
-				<th>Apellido Materno</th>
-				<th>Especialidad</th>
-				<th>Dirección</th>
-				<th>Celular</th>
-				<th>Usuario</th>
-				<th>Usuario Registro</th>
-				<th>Fecha Registro</th>
-				<th>Estado</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.CedulaIdentidad)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Nombres)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.PrimerApellido)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.SegundoApellido)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.IdEspecialidadNavigation.Nombre)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Direccion)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Celular)
-					</td>
-					<td>
-						@(item.Usuarios.Count > 0 ? item.Usuarios.FirstOrDefault().Usuario1 : "--")
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.UsuarioRegistro)
-					</td>
-					<td>
-						@item.FechaRegistro.ToString("dd/MM/yyyy")
-					</td>
-					<td>
-						@(item.Estado == 1 ? "Activo" : "Inactivo")
-					</td>
-					<td>
-						<a asp-controller="Usuarios" asp-action="Create" asp-route-idDoctor="@item.Id"><i class="fa-solid fa-key"></i></a> |
-						<a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-eye"></i></a> |
-						<a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-user-pen"></i></a> |
-						<a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+    .header-row div {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .data-row:hover {
+        background: #f6f8fa;
+        transition: 0.2s;
+    }
+
+    /* COLUMNAS AJUSTADAS */
+    .col-ci {
+        flex: 0 0 110px;
+    }
+
+    .col-nombre {
+        flex: 0 0 140px;
+    }
+
+    .col-apellido-p {
+        flex: 0 0 120px;
+    }
+
+    .col-apellido-m {
+        flex: 0 0 120px;
+    }
+
+    .col-esp {
+        flex: 0 0 180px;
+    }
+
+    .col-celular {
+        flex: 0 0 120px;
+    }
+
+    .col-estado {
+        flex: 0 0 100px;
+    }
+
+    .col-acciones {
+        flex: 0 0 210px;
+        text-align: end;
+    }
+
+    .header-row, .data-row {
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 fw-bold text-primary m-0">Doctores</h1>
+
+        <a asp-action="Create" class="btn btn-success shadow-sm px-3">
+            <i class="bi bi-plus-circle"></i> Registrar
+        </a>
+    </div>
+
+    <div class="list-container">
+
+        <div class="header-row border-bottom pb-2 mb-2 text-uppercase small">
+            <div class="col-ci">C.I.</div>
+            <div class="col-nombre">Nombres</div>
+            <div class="col-apellido-p">Apellido Paterno</div>
+            <div class="col-apellido-m">Apellido Materno</div>
+            <div class="col-esp">Especialidad</div>
+            <div class="col-celular">Celular</div>
+            <div class="col-estado">Estado</div>
+            <div class="col-acciones">Acciones</div>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="data-row border-bottom py-3">
+                <div class="col-ci">@item.CedulaIdentidad</div>
+                <div class="col-nombre">@item.Nombres</div>
+                <div class="col-apellido-p">@item.PrimerApellido</div>
+                <div class="col-apellido-m">@item.SegundoApellido</div>
+                <div class="col-esp">@item.IdEspecialidadNavigation.Nombre</div>
+                <div class="col-celular">@item.Celular</div>
+
+                <div class="col-estado">
+                    <span class="badge @(item.Estado == 1 ? "bg-success" : "bg-danger")">
+                        @(item.Estado == 1 ? "Activo" : "Inactivo")
+                    </span>
+                </div>
+
+                <div class="col-acciones">
+
+                    <!-- 🔑 Crear USUARIO del Doctor -->
+                    <a asp-controller="Usuarios"
+                       asp-action="Create"
+                       asp-route-idDoctor="@item.Id"
+                       class="btn btn-outline-secondary btn-sm me-1"
+                       title="Crear usuario">
+                        <i class="bi bi-key"></i>
+                    </a>
+
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm me-1">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm me-1">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </a>
+
+                </div>
+            </div>
+        }
+    </div>
 </div>

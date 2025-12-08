@@ -1,45 +1,88 @@
 ﻿@model Sis457ConsultorioMedico.Models.Pago
 
 @{
-	ViewData["Title"] = "Details";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detalles del Pago";
 }
 
-<div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Detalles del Pago</h2>
-	</div>
-	<dl class="row">
-		<dt class="col-sm-2">Fecha</dt>
-		<dd class="col-sm-10">
-			@(Model.Fecha.ToLongDateString())
-		</dd>
-		<dt class="col-sm-2">Paciente</dt>
-		<dd class="col-sm-10">
-			@($"{Model.IdCitaNavigation.IdPacienteNavigation.Nombres} {Model.IdCitaNavigation.IdPacienteNavigation.PrimerApellido} {Model.IdCitaNavigation.IdPacienteNavigation.SegundoApellido}")
-		</dd>
-		<dt class="col-sm-2">Concepto</dt>
-		<dd class="col-sm-10">
-			@Model.IdConceptoNavigation.Descripcion
-		</dd>
-		<dt class="col-sm-2">Concepto de Pago</dt>
-		<dd class="col-sm-10">
-			@Model.IdConceptoNavigation.Costo.ToString("C")
-		</dd>
-		<dt class="col-sm-2">Usuario Registro</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.UsuarioRegistro)
-		</dd>
-		<dt class="col-sm-2">Fecha de Registro</dt>
-		<dd class="col-sm-10">
-			@(Model.FechaRegistro.ToLongDateString() + " " + Model.FechaRegistro.ToShortTimeString())
-		</dd>
-		<dt class="col-sm-2">Estado</dt>
-		<dd class="col-sm-10">
-			@(Model.Estado == 1 ? "Activo" : "Inactivo")
-		</dd>
-	</dl>
-	<div class="col-md-4">
-		<a asp-action="Index"><i class="fa-solid fa-arrow-left"></i> Volver a la lista</a>
-	</div>
+<style>
+    .detail-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+        max-width: 700px;
+        margin: 20px auto;
+    }
+
+        .detail-card h4 {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 12px;
+    }
+
+        .detail-row dt {
+            width: 180px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .detail-row dd {
+            margin: 0;
+            color: #333;
+        }
+
+    .detail-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+        .detail-actions a {
+            text-decoration: none;
+        }
+</style>
+
+<div class="detail-card">
+    <h4>Detalles del Pago</h4>
+    <dl>
+        <div class="detail-row">
+            <dt>Fecha del Pago:</dt>
+            <dd>@Model.Fecha.ToLongDateString()</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Paciente:</dt>
+            <dd>@($"{Model.IdCitaNavigation.IdPacienteNavigation.Nombres} {Model.IdCitaNavigation.IdPacienteNavigation.PrimerApellido} {Model.IdCitaNavigation.IdPacienteNavigation.SegundoApellido}")</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Concepto:</dt>
+            <dd>@Model.IdConceptoNavigation.Descripcion</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Costo:</dt>
+            <dd>@Model.IdConceptoNavigation.Costo.ToString("C")</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Usuario Registro:</dt>
+            <dd>@Model.UsuarioRegistro</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Fecha Registro:</dt>
+            <dd>@Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Estado:</dt>
+            <dd>@(Model.Estado == 1 ? "Activo" : "Inactivo")</dd>
+        </div>
+    </dl>
+
+    <div class="detail-actions">
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a la lista
+        </a>
+    </div>
 </div>

@@ -1,73 +1,108 @@
 ﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Cita>
 
 @{
-	ViewData["Title"] = "Citas";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Citas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Citas</h2>
-	</div>
-	<p>
-		<a asp-action="Create"><i class="fa-solid fa-file-circle-plus"></i> Nueva Cita</a>
-	</p>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Fecha</th>
-				<th>Hora</th>
-				<th>Paciente</th>
-				<th>Especialidad</th>
-				<th>Doctor</th>
-				<th>Pagado</th>
-				<th>Fecha de Pago</th>
-				<th>Usuario Registro</th>
-				<th>Fecha Registro</th>
-				<th>Estado</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.Fecha)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.Hora)
-					</td>
-					<td>
-						@(item.IdPacienteNavigation.Nombres + " " + item.IdPacienteNavigation.PrimerApellido + " " + item.IdPacienteNavigation.SegundoApellido)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.IdEspecialidadNavigation.Nombre)
-					</td>
-					<td>
-						@(item.IdDoctorNavigation.Nombres + " " + item.IdDoctorNavigation.PrimerApellido + " " + item.IdDoctorNavigation.SegundoApellido)
-					</td>
-					<td>
-						@(item.Pagos != null && item.Pagos.Any() ? "Sí" : "No")
-					</td>
-					<td>
-						@(item.Pagos.FirstOrDefault()?.Fecha.ToString("dd/MM/yyyy") ?? "--")
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.UsuarioRegistro)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.FechaRegistro)
-					</td>
-					<td>
-						@(item.Estado == 1 ? "Activo" : "Inactivo")
-					</td>
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-money-bill-1-wave"></i></a> |
-						<a asp-action="Edit" asp-route-id="@item.Id"><i class="fa-solid fa-file-pen"></i></a> |
-						<a asp-action="Delete" asp-route-id="@item.Id"><i class="fa-solid fa-trash-can"></i></a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Citas</h2>
+    </div>
+
+    <div class="row mb-3">
+
+        <!-- Buscador a la IZQUIERDA -->
+        <div class="col-md-6">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar por paciente, doctor o especialidad..." />
+        </div>
+
+        <div class="col-md-6 text-end">
+            <a asp-action="Create" class="btn btn-primary mb-2">
+                <i class="fa-solid fa-file-circle-plus"></i> Nueva Cita
+            </a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="citasTable">
+            <thead class="custom-header text-center">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Paciente</th>
+                    <th>Especialidad</th>
+                    <th>Doctor</th>
+                    <th>Pagado</th>
+                    <th>Fecha de Pago</th>
+                    <th>Usuario Registro</th>
+                    <th>Fecha Registro</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@item.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">@item.Hora.ToString(@"hh\:mm")</td>
+                        <td>
+                            @(item.IdPacienteNavigation.Nombres + " " + item.IdPacienteNavigation.PrimerApellido + " " + item.IdPacienteNavigation.SegundoApellido)
+                        </td>
+                        <td>@item.IdEspecialidadNavigation.Nombre</td>
+                        <td>
+                            @(item.IdDoctorNavigation.Nombres + " " + item.IdDoctorNavigation.PrimerApellido + " " + item.IdDoctorNavigation.SegundoApellido)
+                        </td>
+                        <td class="text-center">
+                            @(item.Pagos != null && item.Pagos.Any() ? "Sí" : "No")
+                        </td>
+                        <td class="text-center">
+                            @(item.Pagos.FirstOrDefault()?.Fecha.ToString("dd/MM/yyyy") ?? "--")
+                        </td>
+                        <td>@item.UsuarioRegistro</td>
+                        <td>@item.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="text-center">@(item.Estado == 1 ? "Activo" : "Inactivo")</td>
+                        <td class="text-center">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm" title="Ver Detalles">
+                                <i class="fa-solid fa-money-bill-1-wave"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm" title="Editar">
+                                <i class="fa-solid fa-file-pen"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Eliminar">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@section Scripts {
+    <style>
+        .custom-header {
+            background-color: #5bc0de; /* celeste */
+            color: #fff;
+        }
+
+        #searchInput {
+            max-width: 400px;
+        }
+    </style>
+
+    <script>
+        // Buscador de la tabla en tiempo real
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            const value = this.value.toLowerCase();
+            const rows = document.querySelectorAll("#citasTable tbody tr");
+
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(value) ? "" : "none";
+            });
+        });
+    </script>
+}

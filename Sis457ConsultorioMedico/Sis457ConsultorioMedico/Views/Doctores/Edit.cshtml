@@ -1,71 +1,87 @@
 ﻿@model Sis457ConsultorioMedico.Models.Doctor
 
 @{
-	ViewData["Title"] = "Editar Doctor";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Editar Doctor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Editar Doctor</h2>
-	</div>
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Editar Doctor</h2>
+    </div>
 
-	<div class="row">
-		<div class="col-md-4">
-			<form asp-action="Edit">
-				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-				<div class="form-group">
-					<label class="control-label">Cédula de Identidad</label>
-					<input asp-for="CedulaIdentidad" class="form-control" />
-					<span asp-validation-for="CedulaIdentidad" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Nombres</label>
-					<input asp-for="Nombres" class="form-control" />
-					<span asp-validation-for="Nombres" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Apellido Paterno</label>
-					<input asp-for="PrimerApellido" class="form-control" />
-					<span asp-validation-for="PrimerApellido" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Apellido Materno</label>
-					<input asp-for="SegundoApellido" class="form-control" />
-					<span asp-validation-for="SegundoApellido" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Especialidad</label>
-					<select asp-for="IdEspecialidad" class="form-control" asp-items="ViewBag.IdEspecialidad">
-						<option disabled selected value="0">Seleccione una especialidad</option>
-					</select>
-					<span asp-validation-for="IdEspecialidad" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Dirección</label>
-					<input asp-for="Direccion" class="form-control" />
-					<span asp-validation-for="Direccion" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Celular</label>
-					<input asp-for="Celular" class="form-control" />
-					<span asp-validation-for="Celular" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary">
-						<i class="fa-solid fa-floppy-disk"></i> Guardar
-					</button>
-				</div>
-			</form>
-		</div>
-	</div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Edit" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-	<div class="col-md-4">
-		<a asp-action="Index"><i class="fa-solid fa-arrow-left"></i> Volver a la lista</a>
-	</div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Cédula de Identidad</label>
+                                <input asp-for="CedulaIdentidad" class="form-control" />
+                                <span asp-validation-for="CedulaIdentidad" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Nombres</label>
+                                <input asp-for="Nombres" class="form-control" />
+                                <span asp-validation-for="Nombres" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Apellido Paterno</label>
+                                <input asp-for="PrimerApellido" class="form-control" />
+                                <span asp-validation-for="PrimerApellido" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Apellido Materno</label>
+                                <input asp-for="SegundoApellido" class="form-control" />
+                                <span asp-validation-for="SegundoApellido" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Especialidad</label>
+                                <select asp-for="IdEspecialidad" class="form-control" asp-items="ViewBag.IdEspecialidad">
+                                    <option disabled selected value="0">Seleccione una especialidad</option>
+                                </select>
+                                <span asp-validation-for="IdEspecialidad" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Celular</label>
+                                <input asp-for="Celular" class="form-control" />
+                                <span asp-validation-for="Celular" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Dirección (opcional)</label>
+                                <input asp-for="Direccion" class="form-control" />
+                                <span asp-validation-for="Direccion" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-floppy-disk"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 @section Scripts {
-	@{
-		await Html.RenderPartialAsync("_ValidationScriptsPartial");
-	}
-	}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,58 +1,103 @@
 ﻿@model Sis457ConsultorioMedico.Models.Doctor
 
 @{
-	ViewData["Title"] = "Detalles del Doctor";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Detalles del Doctor";
 }
 
-<div class="container position-relative pb-5" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Detalles del Doctor</h2>
-	</div>
-	<dl class="row">
-		<dt class="col-sm-2">Cédula de Identidad</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.CedulaIdentidad)
-		</dd>
-		<dt class="col-sm-2">Nombres</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Nombres)
-		</dd>
-		<dt class="col-sm-2">Apellido Paterno</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.PrimerApellido)
-		</dd>
-		<dt class="col-sm-2">Apellido Materno</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.SegundoApellido)
-		</dd>
-		<dt class="col-sm-2">Especialidad</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.IdEspecialidadNavigation.Nombre)
-		</dd>
-		<dt class="col-sm-2">Dirección</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Direccion)
-		</dd>
-		<dt class="col-sm-2">Celular</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Celular)
-		</dd>
-		<dt class="col-sm-2">Usuario Registro</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.UsuarioRegistro)
-		</dd>
-		<dt class="col-sm-2">Fecha de Registro</dt>
-		<dd class="col-sm-10">
-			@(Model.FechaRegistro.ToLongDateString() + " " + Model.FechaRegistro.ToShortTimeString())
-		</dd>
-		<dt class="col-sm-2">Estado</dt>
-		<dd class="col-sm-10">
-			@(Model.Estado == 1 ? "Activo" : "Inactivo")
-		</dd>
-	</dl>
-	<div class="col-md-4">
-		<a asp-action="Edit" asp-route-id="@Model?.Id"><i class="fa-solid fa-user-pen"></i> Editar</a> |
-		<a asp-action="Index"><i class="fa-solid fa-arrow-left"></i> Volver a la Lista</a>
-	</div>
+<style>
+    .detail-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+        max-width: 700px;
+        margin: 20px auto;
+    }
+
+        .detail-card h4 {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 12px;
+    }
+
+        .detail-row dt {
+            width: 180px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .detail-row dd {
+            margin: 0;
+            color: #333;
+        }
+
+    .detail-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+        .detail-actions a {
+            text-decoration: none;
+        }
+</style>
+
+<div class="detail-card">
+    <h4>Detalles del Doctor</h4>
+    <dl>
+        <div class="detail-row">
+            <dt>Cédula de Identidad:</dt>
+            <dd>@Model.CedulaIdentidad</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Nombres:</dt>
+            <dd>@Model.Nombres</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Apellido Paterno:</dt>
+            <dd>@Model.PrimerApellido</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Apellido Materno:</dt>
+            <dd>@Model.SegundoApellido</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Especialidad:</dt>
+            <dd>@Model.IdEspecialidadNavigation.Nombre</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Dirección:</dt>
+            <dd>@Model.Direccion</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Celular:</dt>
+            <dd>@Model.Celular</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Usuario Registro:</dt>
+            <dd>@Model.UsuarioRegistro</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Fecha Registro:</dt>
+            <dd>@Model.FechaRegistro.ToString("dd/MM/yyyy HH:mm")</dd>
+        </div>
+        <div class="detail-row">
+            <dt>Estado:</dt>
+            <dd>@(Model.Estado == 1 ? "Activo" : "Inactivo")</dd>
+        </div>
+    </dl>
+
+    <div class="detail-actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Editar
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Volver a la Lista
+        </a>
+    </div>
 </div>

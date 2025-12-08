@@ -60,12 +60,12 @@
 				</div>
 				<div class="form-group">
 					<label class="control-label">Fecha</label>
-					<input asp-for="Fecha" class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+					<input asp-for="Fecha" id="fechaInput" class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
 					<span asp-validation-for="Fecha" class="text-danger"></span>
 				</div>
 				<div class="form-group">
 					<label class="control-label">Hora</label>
-					<select asp-for="Hora" class="form-control">
+					<select asp-for="Hora" id="horaSelect" class="form-control">
 						<option disabled selected value="">Seleccione una hora</option>
 						<option value="09:00">09:00</option>
 						<option value="09:30">09:30</option>
@@ -130,9 +130,69 @@
 						option.text = "No hay doctores disponibles";
 						doctorSelect.appendChild(option);
 					}
+				})
+				.finally(() => {
+					// Actualizar horas ocupadas tras cambiar especialidad y cargar doctores
+					actualizarHorasOcupadas();
 				});
 		});
-				window.addEventListener('DOMContentLoaded', function () {
+
+		// Función que consulta las horas ocupadas y deshabilita las opciones en el select de horas
+		async function actualizarHorasOcupadas() {
+			const doctorId = document.getElementById("doctorSelect").value;
+			const especialidadId = document.getElementById("especialidadSelect").value;
+			const fecha = document.getElementById("fechaInput").value;
+			const horaSelect = document.getElementById("horaSelect");
+			const excludeCitaId = '@Model.Id';
+
+			// Si no hay fecha no consultamos
+			if (!fecha) {
+				// habilitar todo si no hay fecha seleccionada
+				for (const opt of horaSelect.options) {
+					opt.disabled = false;
+				}
+				return;
+			}
+
+			// Construir query string
+			let url = `/Citas/ObtenerHorasOcupadas?fecha=${fecha}&excludeCitaId=${excludeCitaId}`;
+
+			if (doctorId && doctorId !== "0" && doctorId !== "") {
+				url += `&idDoctor=${doctorId}`;
+			} else if (especialidadId && especialidadId !== "0" && especialidadId !== "") {
+				url += `&idEspecialidad=${especialidadId}`;
+			}
+
+			try {
+				const response = await fetch(url);
+				const ocupadas = await response.json(); // array de strings, p.e. ["09:00","09:30"]
+
+				// Primero habilitar todas
+				for (const opt of horaSelect.options) {
+					opt.disabled = false;
+				}
+
+				// Deshabilitar las ocupadas (siempre que no sea la hora actualmente seleccionada en la cita)
+				const horaActual = '@Model.Hora';
+				for (const opt of horaSelect.options) {
+					if (opt.value && ocupadas.includes(opt.value) && opt.value !== horaActual) {
+						opt.disabled = true;
+					}
+				}
+			} catch (err) {
+				console.error("Error al obtener horas ocupadas:", err);
+			}
+		}
+
+		// Listeners para actualizar horas cuando cambian doctor o fecha
+		document.getElementById("doctorSelect").addEventListener("change", function () {
+			actualizarHorasOcupadas();
+		});
+		document.getElementById("fechaInput").addEventListener("change", function () {
+			actualizarHorasOcupadas();
+		});
+
+		window.addEventListener('DOMContentLoaded', function () {
 			const especialidadId = document.getElementById("especialidadSelect").value;
 			const doctorIdActual = '@Model.IdDoctor';
 
@@ -152,7 +212,7 @@
 								if (doctor.id == doctorIdActual) {
 									option.selected = true; // 👈 Selecciona el doctor correspondiente
 								}
-								doctorSelect.appendChild(option);
+								doctorSelect.appendChild(option);	
 							});
 						} else {
 							const option = document.createElement("option");
@@ -160,7 +220,14 @@
 							option.text = "No hay doctores disponibles";
 							doctorSelect.appendChild(option);
 						}
+					})
+					.finally(() => {
+						// Tras poblar el select de doctores, actualizar horas ocupadas para la fecha y doctor actuales
+						actualizarHorasOcupadas();
 					});
+			} else {
+				// Si no hay especialidad seleccionada, igual intentamos actualizar horas (por si hay doctor establecido)
+				actualizarHorasOcupadas();
 			}
 		});
 	</script>

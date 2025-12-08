@@ -1,54 +1,102 @@
 ﻿@model IEnumerable<Sis457ConsultorioMedico.Models.Pago>
 
 @{
-	ViewData["Title"] = "Pagos";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Pagos";
 }
 
-<div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-	<div class="container section-title" data-aos="fade-up">
-		<h2>Pagos</h2>
-	</div>
+<style>
+    /* --- CONFIGURACIÓN GLOBAL PARA LISTAS --- */
+    .list-container {
+        background: #fff;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.08);
+    }
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Fecha</th>
-				<th>Paciente</th>
-				<th>Concepto</th>
-				<th>Costo</th>
-				<th>Usuario Registro</th>
-				<th>Fecha Registro</th>
-				<th>Estado</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model)
-			{
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.Fecha)
-					</td>
-					<td>
-						@($"{item.IdCitaNavigation.IdPacienteNavigation.Nombres} {item.IdCitaNavigation.IdPacienteNavigation.PrimerApellido} {item.IdCitaNavigation.IdPacienteNavigation.SegundoApellido}")
-					</td>
-					<td>@item.IdConceptoNavigation.Descripcion</td>
-					<td>@item.IdConceptoNavigation.Costo.ToString("C")</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.UsuarioRegistro)
-					</td>
-					<td>
-						@item.FechaRegistro.ToString("dd/MM/yyyy")
-					</td>
-					<td>
-						@(item.Estado == 1 ? "Activo" : "Inactivo")
-					</td>
-					<td>
-						<a asp-action="Details" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info"></i></a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+    .header-row div {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+
+    .data-row:hover {
+        background: #f6f8fa;
+        transition: 0.2s;
+    }
+
+    .col-fecha {
+        flex: 0 0 120px;
+    }
+
+    .col-paciente {
+        flex: 0 0 200px;
+    }
+
+    .col-concepto {
+        flex: 0 0 200px;
+    }
+
+    .col-costo {
+        flex: 0 0 120px;
+    }
+
+    .col-acciones {
+        flex: 0 0 100px;
+        text-align: end;
+    }
+
+    .header-row, .data-row {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-row {
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .data-row {
+        border-bottom: 1px solid #dee2e6;
+        padding: 10px 0;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <!-- TÍTULO -->
+    <div class="mb-4">
+        <h1 class="h3 fw-bold text-primary m-0">Pagos</h1>
+    </div>
+
+    <div class="list-container">
+
+        <!-- ENCABEZADOS -->
+        <div class="header-row">
+            <div class="col-fecha">Fecha</div>
+            <div class="col-paciente">Paciente</div>
+            <div class="col-concepto">Concepto</div>
+            <div class="col-costo">Costo</div>
+            <div class="col-acciones">Acciones</div>
+        </div>
+
+        <!-- LISTADO -->
+        @foreach (var item in Model)
+        {
+            <div class="data-row">
+                <div class="col-fecha">@item.Fecha.ToString("dd/MM/yyyy")</div>
+                <div class="col-paciente">
+                    @($"{item.IdCitaNavigation.IdPacienteNavigation.Nombres} {item.IdCitaNavigation.IdPacienteNavigation.PrimerApellido} {item.IdCitaNavigation.IdPacienteNavigation.SegundoApellido}")
+                </div>
+                <div class="col-concepto">@item.IdConceptoNavigation.Descripcion</div>
+                <div class="col-costo">@item.IdConceptoNavigation.Costo.ToString("C")</div>
+                <div class="col-acciones">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-eye"></i> Ver
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
 </div>

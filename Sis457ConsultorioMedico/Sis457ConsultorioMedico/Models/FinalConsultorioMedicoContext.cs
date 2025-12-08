@@ -29,8 +29,9 @@ public partial class FinalConsultorioMedicoContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<DoctorHorario> DoctorHorario { get; set; } // ← NUEVO
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=FinalConsultorioMedico;User ID=usrfinalconsultoriomedico;Password=123456");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -292,6 +293,28 @@ public partial class FinalConsultorioMedicoContext : DbContext
                 .HasForeignKey(d => d.IdDoctor)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_Usuario_Doctor");
+        });
+
+        // NUEVO: DoctorHorario
+        modelBuilder.Entity<DoctorHorario>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.ToTable("DoctorHorario");
+
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.IdDoctor).HasColumnName("IdDoctor");
+            entity.Property(e => e.DiaSemana).HasColumnName("Dia");
+            entity.Property(e => e.Hora).HasColumnName("Hora");
+            entity.Property(e => e.Estado)
+                .HasDefaultValue((short)1)
+                .HasColumnName("Estado");
+
+            entity.HasOne(d => d.Doctor)
+                  .WithMany(p => p.DoctorHorarios)
+                  .HasForeignKey(d => d.IdDoctor)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_DoctorHorario_Doctor");
         });
 
         OnModelCreatingPartial(modelBuilder);

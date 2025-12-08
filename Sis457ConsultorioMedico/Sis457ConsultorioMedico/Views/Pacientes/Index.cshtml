@@ -11,161 +11,171 @@
 
         var hoy = DateTime.Today;
         int edad = hoy.Year - fecha.Value.Year;
-
         if (fecha.Value.Date > hoy.AddYears(-edad)) edad--;
-
         return edad;
     }
 }
 
 <style>
-    /* Hace que TODAS las columnas estén alineadas */
-    .col-ci {
-        width: 120px;
+    /* --- CONFIGURACIÓN GLOBAL PARA TODAS LAS LISTAS --- */
+
+    .list-container {
+        background: #fff;
+        border-radius: 14px;
+        padding: 35px;
+        box-shadow: 0 6px 14px rgba(0,0,0,.10);
     }
 
-    .col-nombre {
-        width: 160px;
-    }
-
-    .col-app {
-        width: 160px;
-    }
-
-    .col-apm {
-        width: 160px;
-    }
-
-    .col-edad {
-        width: 90px;
-    }
-
-    .col-direccion {
-        width: 190px;
-    }
-
-    .col-celular {
-        width: 120px;
-    }
-
-    .col-estado {
-        width: 110px;
-    }
-
-    .col-acciones {
-        width: 190px;
+    /* --- CONTENIDO MÁS ANCHO Y TIPOGRAFÍA MÁS GRANDE --- */
+    .data-row div,
+    .header-row div {
+        font-size: 17px;
     }
 
     .header-row {
         padding-bottom: 12px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
+
+        .header-row div {
+            font-weight: 700;
+            color: #2c3e50;
+            letter-spacing: .5px;
+        }
 
     .data-row {
-        padding: 14px 0;
+        padding: 18px 0;
     }
 
-    /* 🔥 ENCABEZADOS EN NEGRITA */
-    .header-row div {
-        color: #000 !important; /* Negro fuerte */
-        font-weight: 700 !important; /* Negrita */
+        .data-row:hover {
+            background: #f4f7fb;
+            transition: 0.2s;
+        }
+
+    /* --- ANCHO DE COLUMNAS MÁS AMPLIO --- */
+    .col-ci {
+        width: 140px;
     }
 
-    /* 🔥 DATOS SIN NEGRITA Y CON ALTO CONTRASTE */
-    .data-row div {
-        color: #111 !important; /* Oscuro, muy legible */
-        font-weight: 400 !important; /* Normal (sin negrita) */
+    .col-nombre {
+        width: 200px;
     }
+
+    .col-app {
+        width: 200px;
+    }
+
+    .col-apm {
+        width: 200px;
+    }
+
+    .col-edad {
+        width: 110px;
+    }
+
+    .col-direccion {
+        width: 260px;
+    }
+
+    .col-celular {
+        width: 150px;
+    }
+
+    .col-estado {
+        width: 120px;
+    }
+
+    .col-acciones {
+        width: 200px;
+    }
+
 </style>
 
-<div class="container mt-4">
+<div class="container-fluid px-5 mt-4">
 
-    <!-- TÍTULO Y REGISTRAR -->
+    <!-- TITULO Y BOTÓN CREAR -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3 fw-bold text-primary m-0">Lista de Pacientes</h1>
+        <h1 class="h2 fw-bold text-primary m-0">Pacientes</h1>
 
-        <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="bi bi-person-plus"></i> Registrar Nuevo
+        <a asp-action="Create" class="btn btn-success shadow-sm px-4 py-2">
+            <i class="bi bi-plus-circle"></i> Registrar
         </a>
     </div>
 
-    <!-- BUSCADOR -->
-    <div class="d-flex justify-content-center mb-4">
-        <form asp-action="Index" method="get" class="d-flex w-50">
-            <input type="text" name="buscar" class="form-control me-2"
-                   placeholder="Buscar paciente por nombre, CI o apellido...">
-            <button class="btn btn-primary">Buscar</button>
+    <div class="list-container">
+
+        <!-- BUSCADOR -->
+        <form asp-action="Index" method="get" class="input-group mb-4">
+            <input type="text" name="buscar" class="form-control form-control-lg"
+                   placeholder="Buscar por nombre, CI o apellido…">
+            <button class="btn btn-primary btn-lg px-4">
+                <i class="bi bi-search"></i>
+            </button>
         </form>
-    </div>
 
-    <!-- ENCABEZADOS -->
-    <div class="d-flex fw-bold text-uppercase small border-bottom header-row">
+        <!-- ENCABEZADOS -->
+        <div class="d-flex border-bottom header-row text-uppercase small">
 
-        <div class="col-ci">C.I.</div>
-        <div class="col-nombre">Nombres</div>
-        <div class="col-app">Apellido Paterno</div>
-        <div class="col-apm">Apellido Materno</div>
-        <div class="col-edad">Edad</div>
-        <div class="col-direccion">Dirección</div>
-        <div class="col-celular">Celular</div>
-
-        @if (!todosActivos)
-        {
-            <div class="col-estado">Estado</div>
-        }
-
-        <div class="col-acciones text-end">Acciones</div>
-    </div>
-
-    <!-- LISTA DE PACIENTES -->
-    @foreach (var p in Model)
-    {
-        <div class="d-flex align-items-center border-bottom data-row">
-
-            <div class="col-ci">@p.CedulaIdentidad</div>
-
-            <div class="col-nombre">@p.Nombres</div>
-
-            <div class="col-app">@p.PrimerApellido</div>
-
-            <div class="col-apm">@p.SegundoApellido</div>
-
-            <div class="col-edad">@CalcularEdad(p.FechaNacimiento) años</div>
-
-            <div class="col-direccion">@p.Direccion</div>
-
-            <div class="col-celular">@p.Celular</div>
+            <div class="col-ci">C.I.</div>
+            <div class="col-nombre">Nombres</div>
+            <div class="col-app">Ap. Paterno</div>
+            <div class="col-apm">Ap. Materno</div>
+            <div class="col-edad">Edad</div>
+            <div class="col-direccion">Dirección</div>
+            <div class="col-celular">Celular</div>
 
             @if (!todosActivos)
             {
-                <div class="col-estado">
-                    @if (p.Estado == 1)
-                    {
-                        <span class="badge bg-success">Activo</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-danger">Inactivo</span>
-                    }
-                </div>
+                <div class="col-estado">Estado</div>
             }
 
-            <div class="col-acciones text-end">
-                <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-outline-secondary btn-sm me-1">
-                    <i class="bi bi-eye"></i>
-                </a>
-
-                <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-outline-primary btn-sm me-1">
-                    <i class="bi bi-pencil-square"></i>
-                </a>
-
-                <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="d-inline">
-                    <button type="submit" class="btn btn-outline-danger btn-sm"
-                            onclick="return confirm('¿Eliminar este paciente?');">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </form>
-            </div>
+            <div class="col-acciones text-end">Acciones</div>
         </div>
-    }
+
+        <!-- LISTADO -->
+        @foreach (var p in Model)
+        {
+            <div class="d-flex align-items-center border-bottom data-row">
+
+                <div class="col-ci">@p.CedulaIdentidad</div>
+                <div class="col-nombre">@p.Nombres</div>
+                <div class="col-app">@p.PrimerApellido</div>
+                <div class="col-apm">@p.SegundoApellido</div>
+                <div class="col-edad">@CalcularEdad(p.FechaNacimiento) años</div>
+                <div class="col-direccion">@p.Direccion</div>
+                <div class="col-celular">@p.Celular</div>
+
+                @if (!todosActivos)
+                {
+                    <div class="col-estado">
+                        <span class="badge @(p.Estado == 1 ? "bg-success" : "bg-danger")">
+                            @(p.Estado == 1 ? "Activo" : "Inactivo")
+                        </span>
+                    </div>
+                }
+
+                <div class="col-acciones text-end">
+
+                    <a asp-action="Details" asp-route-id="@p.Id"
+                       class="btn btn-outline-secondary btn-sm me-1 px-3 py-1">
+                        <i class="bi bi-eye"></i>
+                    </a>
+
+                    <a asp-action="Edit" asp-route-id="@p.Id"
+                       class="btn btn-outline-primary btn-sm me-1 px-3 py-1">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+
+                    <form asp-action="Delete" asp-route-id="@p.Id"
+                          method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-1"
+                                onclick="return confirm('¿Eliminar este paciente?');">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        }
+    </div>
 </div>
