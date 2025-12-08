@@ -97,6 +97,20 @@ CREATE TABLE Usuario(
     estado SMALLINT NOT NULL -- estado
 );
 
+CREATE TABLE DoctorHorario (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    IdDoctor INT NOT NULL,
+    Dia INT NOT NULL, -- 1=Lunes, 2=Martes, etc.
+    HoraInicio TIME NOT NULL,
+    HoraFin TIME NOT NULL,
+    Estado BIT NOT NULL DEFAULT 1, -- 1=Activo, 0=Inactivo
+    FechaRegistro DATETIME NOT NULL DEFAULT GETDATE(),
+    UsuarioRegistro NVARCHAR(100) NOT NULL,
+
+    CONSTRAINT FK_DoctorHorario_Doctor FOREIGN KEY (IdDoctor)
+        REFERENCES Doctor(Id)
+);
+
 
 /*  DEFAULTS */
 
@@ -144,6 +158,7 @@ ALTER TABLE Usuario    ADD FOREIGN KEY(idDoctor) REFERENCES Doctor(id);
 INSERT INTO Usuario(usuario, clave, idDoctor)
 VALUES ('soe', 'i0hcoO/nssY6WOs9pOp5Xw==', 1);
 GO
+
 
 
 
